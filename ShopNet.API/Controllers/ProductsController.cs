@@ -18,8 +18,7 @@ namespace ShopNet.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IReadOnlyList<Product>>> GetProducts()
         {
-            var products = await _productsService.GetAllProductsAsync();
-            return products == null ? NotFound("Error") : Ok(products);
+            return Ok(await _productsService.GetAllProductsAsync());
         }
 
         [HttpGet("{id}")]

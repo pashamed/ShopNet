@@ -9,6 +9,7 @@ namespace ShopNet.BLL.Interfaces
         Task<Product> GetProductByIdAsync(int id);
 
         Task<IReadOnlyList<ProductType>> GetProductTypesAsync();
+
         Task<IReadOnlyList<ProductBrand>> GetProductBrandsAsync();
     }
 }
