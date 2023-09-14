@@ -14,11 +14,12 @@ namespace API.Controllers
         {
             _productsService = productsService;
         }
+
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
         {
-            var products = await _productsService.GetAllProdudctsAsync();           
-            return products == null ? NoContent():Ok(products);
+            var products = await _productsService.GetAllProdudctsAsync();
+            return products == null ? NotFound("Error") : Ok(products);
         }
 
         [HttpGet("{id}")]
@@ -30,8 +31,8 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                return NotFound(string.Format("{0} : {1}",ex.Message,ex.InnerException.Message));
-            }          
+                return NotFound(string.Format("{0} : {1}", ex.Message, ex.InnerException.Message));
+            }
         }
     }
 }
