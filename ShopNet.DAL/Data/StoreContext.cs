@@ -1,6 +1,6 @@
-﻿using System.Reflection;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using ShopNet.DAL.Entities;
+using System.Reflection;
 
 namespace ShopNet.DAL.Data
 {
@@ -9,6 +9,7 @@ namespace ShopNet.DAL.Data
         public StoreContext(DbContextOptions options) : base(options)
         {
         }
+
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductBrand> ProductBrands { get; set; }
         public DbSet<ProductType> ProductTypes { get; set; }

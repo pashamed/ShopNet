@@ -30,8 +30,6 @@ if (app.Environment.IsDevelopment())
 app.UseAuthorization();
 
 app.MapControllers();
-var loca = Assembly.GetExecutingAssembly().Location;
-
 
 using var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;

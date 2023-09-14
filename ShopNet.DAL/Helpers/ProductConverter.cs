@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices.JavaScript;
-using System.Text;
+﻿using ShopNet.DAL.Entities;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
-using ShopNet.DAL.Entities;
 
 namespace ShopNet.DAL.Helpers
 {
-    public class ProductConverter:JsonConverter<Product>
+    public class ProductConverter : JsonConverter<Product>
 
     {
         public override Product Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)

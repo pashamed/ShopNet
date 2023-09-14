@@ -4,7 +4,7 @@ using ShopNet.DAL.Entities;
 
 namespace ShopNet.DAL.Data.Config
 {
-    public class ProductConfiguration: IEntityTypeConfiguration<Product>
+    public class ProductConfiguration : IEntityTypeConfiguration<Product>
     {
         public void Configure(EntityTypeBuilder<Product> builder)
         {

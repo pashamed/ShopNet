@@ -1,6 +1,5 @@
-﻿using System.Reflection;
+﻿using ShopNet.DAL.Entities;
 using System.Text.Json;
-using ShopNet.DAL.Entities;
 
 namespace ShopNet.DAL.Data
 {
