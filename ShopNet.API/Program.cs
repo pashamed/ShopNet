@@ -5,7 +5,6 @@ using ShopNet.DAL.Data;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
-// Add services to the container.
 
 builder.Services.AddControllers();
 builder.Services.AddLogging();
@@ -22,7 +21,6 @@ builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepositor
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
