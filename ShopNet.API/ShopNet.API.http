@@ -1,0 +1,5 @@
+﻿@ShopNet.API_HostAddress = https://localhost:5001
+
+GET {{ShopNet.API_HostAddress}}/api/products
+
+###
