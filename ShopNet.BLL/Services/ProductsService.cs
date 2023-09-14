@@ -14,12 +14,17 @@ namespace ShopNet.BLL.Services
 
         public async Task<IReadOnlyList<Product>> GetAllProductsAsync()
         {
-            return await _context.Products.ToListAsync();
+            return await _context.Products.Include(p => p.ProductType)
+                .Include(p => p.ProductBrand)
+                .ToListAsync();
         }
 
         public async Task<Product> GetProductByIdAsync(int id)
         {
-            var product = await _context.Products.FindAsync(id);
+            var product = await _context.Products.Where(p => p.Id == id)
+                .Include(p => p.ProductType)
+                .Include(p => p.ProductBrand)
+                .FirstOrDefaultAsync();
             return product ?? throw new ArgumentNullException("Product Not Found", new Exception(nameof(id)));
         }
     }

@@ -33,7 +33,19 @@ namespace ShopNet.DAL.Helpers
 
         public override void Write(Utf8JsonWriter writer, Product value, JsonSerializerOptions options)
         {
-            throw new NotImplementedException();
+            writer.WriteStartObject();
+            writer.WriteString("Name", value.Name);
+            writer.WriteString("Description", value.Description);
+            writer.WriteNumber("Price", value.Price);
+            writer.WriteString("PictureUrl", value.PictureUrl);
+
+            // Serialize ProductType and ProductBrand as their IDs
+            writer.WritePropertyName("ProductType");
+            JsonSerializer.Serialize(writer, value.ProductType, typeof(ProductType), options);
+            writer.WritePropertyName("ProductBrand");
+            JsonSerializer.Serialize(writer, value.ProductBrand, typeof(ProductBrand), options);
+
+            writer.WriteEndObject();
         }
     }
 }
