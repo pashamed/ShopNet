@@ -34,5 +34,13 @@ namespace ShopNet.API.Controllers
                 return NotFound($"{ex.Message} : {ex.InnerException!.Message}");
             }
         }
+
+        [HttpGet("brands")]
+        public async Task<ActionResult<ProductBrand>> GetProductBrands() =>
+            Ok(await _productsService.GetProductBrandsAsync());
+
+        [HttpGet("types")]
+        public async Task<ActionResult<ProductType>> GetProductTypes() =>
+            Ok(await _productsService.GetProductTypesAsync());
     }
 }
