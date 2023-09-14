@@ -6,20 +6,20 @@ using ShopNet.DAL.Entities;
 
 namespace ShopNet.BLL.Services
 {
-    public class ProductsService : BaseService, IProductsService
+    public class ProductsService : BaseService, IProductsRepository
     {
         public ProductsService(StoreContext context) : base(context)
         {
         }
 
-        public async Task<IEnumerable<Product>> GetAllProductsAsync()
+        public async Task<IReadOnlyList<Product>> GetAllProductsAsync()
         {
             return await _context.Products.ToListAsync();
         }
 
         public async Task<Product> GetProductByIdAsync(int id)
         {
-            var product = await _context.Products.SingleOrDefaultAsync(p => p.Id == id);
+            var product = await _context.Products.FindAsync(id);
             return product ?? throw new ArgumentNullException("Product Not Found", new Exception(nameof(id)));
         }
     }

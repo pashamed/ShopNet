@@ -15,7 +15,7 @@ builder.Services.AddDbContext<StoreContext>(opt =>
 {
     opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"), m => m.MigrationsAssembly("ShopNet.DAL"));
 });
-builder.Services.AddTransient<IProductsService, ProductsService>();
+builder.Services.AddScoped<IProductsRepository, ProductsService>();
 
 var app = builder.Build();
 

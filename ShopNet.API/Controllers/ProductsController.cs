@@ -2,21 +2,21 @@ using Microsoft.AspNetCore.Mvc;
 using ShopNet.BLL.Interfaces;
 using ShopNet.DAL.Entities;
 
-namespace API.Controllers
+namespace ShopNet.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
     public class ProductsController : ControllerBase
     {
-        private readonly IProductsService _productsService;
+        private readonly IProductsRepository _productsService;
 
-        public ProductsController(IProductsService productsService)
+        public ProductsController(IProductsRepository productsService)
         {
             _productsService = productsService;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
+        public async Task<ActionResult<IReadOnlyList<Product>>> GetProducts()
         {
             var products = await _productsService.GetAllProductsAsync();
             return products == null ? NotFound("Error") : Ok(products);
@@ -31,7 +31,7 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                return NotFound(string.Format("{0} : {1}", ex.Message, ex.InnerException.Message));
+                return NotFound($"{ex.Message} : {ex.InnerException!.Message}");
             }
         }
     }
