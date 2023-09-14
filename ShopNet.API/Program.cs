@@ -2,12 +2,13 @@ using Microsoft.EntityFrameworkCore;
 using ShopNet.BLL.Interfaces;
 using ShopNet.BLL.Services;
 using ShopNet.DAL.Data;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
-
 // Add services to the container.
 
 builder.Services.AddControllers();
+builder.Services.AddLogging();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -29,5 +30,21 @@ if (app.Environment.IsDevelopment())
 app.UseAuthorization();
 
 app.MapControllers();
+var loca = Assembly.GetExecutingAssembly().Location;
+
+
+using var scope = app.Services.CreateScope();
+var services = scope.ServiceProvider;
+var context = services.GetRequiredService<StoreContext>();
+var logger = services.GetRequiredService<ILogger<Program>>();
+try
+{
+    await context.Database.MigrateAsync();
+    await StoreContextSeed.SeedAsync(context);
+}
+catch (Exception e)
+{
+    logger.LogError(e,"An error occurred during migration");
+}
 
 app.Run();
