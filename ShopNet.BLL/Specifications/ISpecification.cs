@@ -5,11 +5,11 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ShopNet.DAL.Specifications
+namespace ShopNet.BLL.Specifications
 {
     public interface ISpecification<T>
     {
-        Expression<Func<T, bool>> Criteria { get; }
+        Expression<Func<T, bool>>? Criteria { get; }
         List<Expression<Func<T, object>>> Includes { get; }
     }
 }

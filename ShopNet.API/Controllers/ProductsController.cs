@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using ShopNet.BLL.Interfaces;
+using ShopNet.BLL.Specifications;
 using ShopNet.DAL.Entities;
 
 namespace ShopNet.API.Controllers
@@ -23,15 +24,15 @@ namespace ShopNet.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IReadOnlyList<Product>>> GetProducts()
         {
-            return Ok(await _productsRepo.ListAllAsync());
+            return Ok(await _productsRepo.ListAsync(new ProductsWithTypesAndBrandsSpecification()));
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public async Task<ActionResult<Product>> GetProduct(int id)
         {
             try
             {
-                return await _productsRepo.GetByIdAsync(id);
+                return await _productsRepo.GetEntityWithSpec(new ProductsWithTypesAndBrandsSpecification(id));
             }
             catch (Exception ex)
             {

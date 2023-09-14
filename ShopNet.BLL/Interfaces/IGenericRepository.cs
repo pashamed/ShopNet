@@ -1,5 +1,5 @@
-﻿using ShopNet.DAL.Entities;
-using ShopNet.DAL.Specifications;
+﻿using ShopNet.BLL.Specifications;
+using ShopNet.DAL.Entities;
 
 namespace ShopNet.BLL.Interfaces
 {

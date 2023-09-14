@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace ShopNet.DAL.Entities
 {
-    [JsonConverter(typeof(ProductConverter))]
+    [JsonConverter(typeof(ProductJSONConverter))]
     public class Product : BaseEntity
     {
         public string Name { get; set; }

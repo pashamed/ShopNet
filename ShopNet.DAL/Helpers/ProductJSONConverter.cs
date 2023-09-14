@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace ShopNet.DAL.Helpers
 {
-    public class ProductConverter : JsonConverter<Product>
+    public class ProductJSONConverter : JsonConverter<Product>
 
     {
         //Converter to deserialize json's Brands and Types Ids and map them to navigation properties when seeding

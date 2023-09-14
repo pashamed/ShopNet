@@ -2,7 +2,7 @@
 using ShopNet.BLL.Interfaces;
 using ShopNet.DAL.Data;
 using ShopNet.DAL.Entities;
-using ShopNet.DAL.Specifications;
+using ShopNet.BLL.Specifications;
 
 namespace ShopNet.BLL.Services
 {

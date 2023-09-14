@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using ShopNet.BLL.Specifications;
 using ShopNet.DAL.Entities;
-using ShopNet.DAL.Specifications;
 
 namespace ShopNet.DAL.Data
 {
