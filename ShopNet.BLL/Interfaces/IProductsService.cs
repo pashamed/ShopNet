@@ -4,7 +4,7 @@ namespace ShopNet.BLL.Interfaces
 {
     public interface IProductsService
     {
-        Task<IEnumerable<Product>> GetAllProdudctsAsync();
+        Task<IEnumerable<Product>> GetAllProductsAsync();
 
         Task<Product> GetProductByIdAsync(int id);
     }

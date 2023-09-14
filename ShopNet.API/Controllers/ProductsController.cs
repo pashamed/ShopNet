@@ -18,7 +18,7 @@ namespace API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
         {
-            var products = await _productsService.GetAllProdudctsAsync();
+            var products = await _productsService.GetAllProductsAsync();
             return products == null ? NotFound("Error") : Ok(products);
         }
 

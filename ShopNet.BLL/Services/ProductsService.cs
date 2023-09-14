@@ -12,7 +12,7 @@ namespace ShopNet.BLL.Services
         {
         }
 
-        public async Task<IEnumerable<Product>> GetAllProdudctsAsync()
+        public async Task<IEnumerable<Product>> GetAllProductsAsync()
         {
             return await _context.Products.ToListAsync();
         }
