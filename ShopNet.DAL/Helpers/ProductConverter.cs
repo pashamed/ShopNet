@@ -38,13 +38,10 @@ namespace ShopNet.DAL.Helpers
             writer.WriteString("Description", value.Description);
             writer.WriteNumber("Price", value.Price);
             writer.WriteString("PictureUrl", value.PictureUrl);
-
-            // Serialize ProductType and ProductBrand as their IDs
             writer.WritePropertyName("ProductType");
             JsonSerializer.Serialize(writer, value.ProductType, typeof(ProductType), options);
             writer.WritePropertyName("ProductBrand");
             JsonSerializer.Serialize(writer, value.ProductBrand, typeof(ProductBrand), options);
-
             writer.WriteEndObject();
         }
     }

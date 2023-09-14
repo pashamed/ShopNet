@@ -14,9 +14,11 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<StoreContext>(opt =>
 {
-    opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"), m => m.MigrationsAssembly("ShopNet.DAL"));
+    opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"),
+        m => m.MigrationsAssembly("ShopNet.DAL"));
 });
 builder.Services.AddScoped<IProductsRepository, ProductsService>();
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
 var app = builder.Build();
 
@@ -42,7 +44,7 @@ try
 }
 catch (Exception e)
 {
-    logger.LogError(e,"An error occurred during migration");
+    logger.LogError(e, "An error occurred during migration");
 }
 
 app.Run();

@@ -8,17 +8,22 @@ namespace ShopNet.API.Controllers
     [Route("api/[controller]")]
     public class ProductsController : ControllerBase
     {
-        private readonly IProductsRepository _productsService;
+        private readonly IGenericRepository<Product> _productsRepo;
+        private readonly IGenericRepository<ProductType> _typeRepo;
+        private readonly IGenericRepository<ProductBrand> _brandRepo;
 
-        public ProductsController(IProductsRepository productsService)
+        public ProductsController(IGenericRepository<Product> productsRepo, IGenericRepository<ProductType> typeRepo,
+            IGenericRepository<ProductBrand> brandRepo)
         {
-            _productsService = productsService;
+            _productsRepo = productsRepo;
+            _typeRepo = typeRepo;
+            _brandRepo = brandRepo;
         }
 
         [HttpGet]
         public async Task<ActionResult<IReadOnlyList<Product>>> GetProducts()
         {
-            return Ok(await _productsService.GetAllProductsAsync());
+            return Ok(await _productsRepo.ListAllAsync());
         }
 
         [HttpGet("{id}")]
@@ -26,7 +31,7 @@ namespace ShopNet.API.Controllers
         {
             try
             {
-                return await _productsService.GetProductByIdAsync(id);
+                return await _productsRepo.GetByIdAsync(id);
             }
             catch (Exception ex)
             {
@@ -36,10 +41,10 @@ namespace ShopNet.API.Controllers
 
         [HttpGet("brands")]
         public async Task<ActionResult<ProductBrand>> GetProductBrands() =>
-            Ok(await _productsService.GetProductBrandsAsync());
+            Ok(await _brandRepo.ListAllAsync());
 
         [HttpGet("types")]
         public async Task<ActionResult<ProductType>> GetProductTypes() =>
-            Ok(await _productsService.GetProductTypesAsync());
+            Ok(await _typeRepo.ListAllAsync());
     }
 }
