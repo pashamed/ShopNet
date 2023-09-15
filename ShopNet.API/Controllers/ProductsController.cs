@@ -1,6 +1,8 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using ShopNet.BLL.Interfaces;
 using ShopNet.BLL.Specifications;
+using ShopNet.Common.DTO;
 using ShopNet.DAL.Entities;
 
 namespace ShopNet.API.Controllers
@@ -12,27 +14,31 @@ namespace ShopNet.API.Controllers
         private readonly IGenericRepository<Product> _productsRepo;
         private readonly IGenericRepository<ProductType> _typeRepo;
         private readonly IGenericRepository<ProductBrand> _brandRepo;
+        private readonly IMapper _mapper;
 
         public ProductsController(IGenericRepository<Product> productsRepo, IGenericRepository<ProductType> typeRepo,
-            IGenericRepository<ProductBrand> brandRepo)
+            IGenericRepository<ProductBrand> brandRepo, IMapper mapper)
         {
             _productsRepo = productsRepo;
             _typeRepo = typeRepo;
             _brandRepo = brandRepo;
+            _mapper = mapper;
         }
 
         [HttpGet]
         public async Task<ActionResult<IReadOnlyList<Product>>> GetProducts()
         {
-            return Ok(await _productsRepo.ListAsync(new ProductsWithTypesAndBrandsSpecification()));
+            var products = await _productsRepo.ListAsync(new ProductsWithTypesAndBrandsSpecification());
+            return Ok(_mapper.Map<IReadOnlyList<Product>, IReadOnlyList<ProductDto>>(products));
         }
 
         [HttpGet("{id:int}")]
-        public async Task<ActionResult<Product>> GetProduct(int id)
+        public async Task<ActionResult<ProductDto>> GetProduct(int id)
         {
             try
             {
-                return await _productsRepo.GetEntityWithSpec(new ProductsWithTypesAndBrandsSpecification(id));
+                var product = await _productsRepo.GetEntityWithSpec(new ProductsWithTypesAndBrandsSpecification(id));
+                return _mapper.Map<Product, ProductDto>(product);
             }
             catch (Exception ex)
             {

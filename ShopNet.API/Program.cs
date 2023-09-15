@@ -1,5 +1,7 @@
+using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using ShopNet.BLL.Interfaces;
+using ShopNet.BLL.MappingProfiles;
 using ShopNet.BLL.Services;
 using ShopNet.DAL.Data;
 
@@ -15,6 +17,8 @@ builder.Services.AddDbContext<StoreContext>(opt =>
     opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"),
         m => m.MigrationsAssembly("ShopNet.DAL"));
 });
+
+builder.Services.AddAutoMapper(Assembly.GetAssembly(typeof(ProductProfile)));
 builder.Services.AddScoped<IProductsRepository, ProductsService>();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 

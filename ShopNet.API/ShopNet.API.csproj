@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ShopNet.BLL\ShopNet.BLL.csproj" />
+    <ProjectReference Include="..\ShopNet.Common\ShopNet.Common.csproj" />
     <ProjectReference Include="..\ShopNet.DAL\ShopNet.DAL.csproj" />
   </ItemGroup>
 
