@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ShopNet.BLL.Interfaces;
+using ShopNet.BLL.Specifications;
 using ShopNet.DAL.Data;
 using ShopNet.DAL.Entities;
-using ShopNet.BLL.Specifications;
 
 namespace ShopNet.BLL.Services
 {
@@ -29,7 +29,7 @@ namespace ShopNet.BLL.Services
         public async Task<T> GetEntityWithSpec(ISpecification<T> spec)
         {
             return await ApplySpecification(spec).FirstOrDefaultAsync() ??
-                   throw new ArgumentNullException(spec.Criteria.ToString(), "Not Found");
+                   throw new ArgumentNullException(spec.Criteria?.ToString(), "Not Found");
         }
 
         public async Task<IReadOnlyList<T>> ListAsync(ISpecification<T> spec)

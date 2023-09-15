@@ -1,5 +1,4 @@
 ﻿using System.Linq.Expressions;
-using ShopNet.BLL.Specifications;
 
 namespace ShopNet.BLL.Specifications
 {

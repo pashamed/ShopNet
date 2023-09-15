@@ -1,6 +1,4 @@
-﻿using System.Linq.Expressions;
-using ShopNet.DAL.Entities;
-using ShopNet.BLL.Specifications;
+﻿using ShopNet.DAL.Entities;
 
 namespace ShopNet.BLL.Specifications
 {

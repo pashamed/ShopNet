@@ -2,7 +2,6 @@ using Microsoft.EntityFrameworkCore;
 using ShopNet.BLL.Interfaces;
 using ShopNet.BLL.Services;
 using ShopNet.DAL.Data;
-using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
