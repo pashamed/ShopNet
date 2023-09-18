@@ -19,6 +19,7 @@ builder.Services.AddDbContext<StoreContext>(opt =>
 });
 
 builder.Services.AddAutoMapper(Assembly.GetAssembly(typeof(ProductProfile)));
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IProductsRepository, ProductsService>();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
@@ -29,6 +30,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseStaticFiles();
 
 app.UseAuthorization();
 
