@@ -1,6 +1,4 @@
-﻿using ShopNet.API.Errors;
-
-namespace ShopNet.API.Errors
+﻿namespace ShopNet.API.Errors
 {
     public class ApiValidationErrorResponse : ApiResponse
     {

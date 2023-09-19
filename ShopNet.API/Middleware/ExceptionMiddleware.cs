@@ -1,6 +1,6 @@
-﻿using System.Net;
+﻿using ShopNet.API.Errors;
+using System.Net;
 using System.Text.Json;
-using ShopNet.API.Errors;
 
 namespace ShopNet.API.Middleware
 {
