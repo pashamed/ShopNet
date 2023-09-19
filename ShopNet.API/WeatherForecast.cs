@@ -1,4 +1,4 @@
-namespace API;
+namespace ShopNet.API;
 
 public class WeatherForecast
 {

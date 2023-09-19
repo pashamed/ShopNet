@@ -1,5 +1,8 @@
 using System.Reflection;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using ShopNet.API.Errors;
+using ShopNet.API.Middleware;
 using ShopNet.BLL.Interfaces;
 using ShopNet.BLL.MappingProfiles;
 using ShopNet.BLL.Services;
@@ -22,8 +25,28 @@ builder.Services.AddAutoMapper(Assembly.GetAssembly(typeof(ProductProfile)));
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IProductsRepository, ProductsService>();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+builder.Services.Configure<ApiBehaviorOptions>(opt =>
+{
+    opt.InvalidModelStateResponseFactory = actionContext =>
+    {
+        var errors = actionContext.ModelState
+            .Where(e => e.Value.Errors.Count > 0)
+            .SelectMany(x => x.Value.Errors)
+            .Select(x => x.ErrorMessage).ToArray();
+
+        var errorResponse = new ApiValidationErrorResponse()
+        {
+            Errors = errors
+        };
+
+        return new BadRequestObjectResult(errorResponse);
+    };
+});
 
 var app = builder.Build();
+
+app.UseMiddleware<ExceptionMiddleware>();
+app.UseStatusCodePagesWithReExecute("/errors/{0}");
 
 if (app.Environment.IsDevelopment())
 {

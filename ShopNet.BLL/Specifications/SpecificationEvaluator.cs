@@ -1,8 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ShopNet.BLL.Specifications;
 using ShopNet.DAL.Entities;
 
-namespace ShopNet.DAL.Data
+namespace ShopNet.BLL.Specifications
 {
     public class SpecificationEvaluator<TEntity> where TEntity : BaseEntity
     {

@@ -17,8 +17,7 @@ namespace ShopNet.BLL.Services
 
         public async Task<T> GetByIdAsync(int id)
         {
-            return await _context.FindAsync<T>(id) ??
-                   throw new ArgumentNullException("Product Not Found", new Exception(nameof(id)));
+            return await _context.FindAsync<T>(id);
         }
 
         public async Task<IReadOnlyList<T>> ListAllAsync()
@@ -28,8 +27,7 @@ namespace ShopNet.BLL.Services
 
         public async Task<T> GetEntityWithSpec(ISpecification<T> spec)
         {
-            return await ApplySpecification(spec).FirstOrDefaultAsync() ??
-                   throw new ArgumentNullException(spec.Criteria?.ToString(), "Not Found");
+            return await ApplySpecification(spec).FirstOrDefaultAsync();
         }
 
         public async Task<IReadOnlyList<T>> ListAsync(ISpecification<T> spec)

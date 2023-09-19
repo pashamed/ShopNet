@@ -1,5 +1,6 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using ShopNet.API.Errors;
 using ShopNet.BLL.Interfaces;
 using ShopNet.BLL.Specifications;
 using ShopNet.Common.DTO;
@@ -7,9 +8,7 @@ using ShopNet.DAL.Entities;
 
 namespace ShopNet.API.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class ProductsController : ControllerBase
+    public class ProductsController : BaseApiController
     {
         private readonly IGenericRepository<Product> _productsRepo;
         private readonly IGenericRepository<ProductType> _typeRepo;
@@ -33,17 +32,14 @@ namespace ShopNet.API.Controllers
         }
 
         [HttpGet("{id:int}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
         public async Task<ActionResult<ProductDto>> GetProduct(int id)
         {
-            try
-            {
-                var product = await _productsRepo.GetEntityWithSpec(new ProductsWithTypesAndBrandsSpecification(id));
-                return _mapper.Map<Product, ProductDto>(product);
-            }
-            catch (Exception ex)
-            {
-                return NotFound($"{ex.Message} : {ex.InnerException!.Message}");
-            }
+            var product = await _productsRepo.GetEntityWithSpec(new ProductsWithTypesAndBrandsSpecification(id));
+            return product != null
+                ? _mapper.Map<Product, ProductDto>(product)
+                : NotFound(new ApiResponse(404, "Product not found"));
         }
 
         [HttpGet("brands")]
