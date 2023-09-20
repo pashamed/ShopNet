@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShopNet.DAL", "ShopNet.DAL\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShopNet.BLL", "ShopNet.BLL\ShopNet.BLL.csproj", "{AB843028-DA8E-4B6D-8573-112DD0A743BD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShopNet.Common", "ShopNet.Common\ShopNet.Common.csproj", "{DD8C8838-AB8F-4581-80FE-B57B1502E743}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShopNet.Common", "ShopNet.Common\ShopNet.Common.csproj", "{DD8C8838-AB8F-4581-80FE-B57B1502E743}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
