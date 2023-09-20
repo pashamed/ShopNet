@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ShopNet.BLL.Interfaces;
-using ShopNet.BLL.Specifications;
+using ShopNet.BLL.Specifications.Abstract;
 using ShopNet.DAL.Data;
 using ShopNet.DAL.Entities;
 
@@ -33,6 +33,11 @@ namespace ShopNet.BLL.Services
         public async Task<IReadOnlyList<T>> ListAsync(ISpecification<T> spec)
         {
             return await ApplySpecification(spec).ToListAsync();
+        }
+
+        public async Task<int> CountAsync(ISpecification<T> spec)
+        {
+            return await ApplySpecification(spec).CountAsync();
         }
 
         private IQueryable<T> ApplySpecification(ISpecification<T> spec)

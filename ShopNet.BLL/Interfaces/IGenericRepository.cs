@@ -1,4 +1,4 @@
-﻿using ShopNet.BLL.Specifications;
+﻿using ShopNet.BLL.Specifications.Abstract;
 using ShopNet.DAL.Entities;
 
 namespace ShopNet.BLL.Interfaces
@@ -12,5 +12,7 @@ namespace ShopNet.BLL.Interfaces
         Task<T> GetEntityWithSpec(ISpecification<T> spec);
 
         Task<IReadOnlyList<T>> ListAsync(ISpecification<T> spec);
+
+        Task<int> CountAsync(ISpecification<T> spec);
     }
 }

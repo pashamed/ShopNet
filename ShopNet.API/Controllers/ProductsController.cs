@@ -2,6 +2,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using ShopNet.API.Errors;
 using ShopNet.BLL.Interfaces;
+using ShopNet.BLL.Services.Helpers;
 using ShopNet.BLL.Specifications;
 using ShopNet.Common.DTO;
 using ShopNet.DAL.Entities;
@@ -25,10 +26,16 @@ namespace ShopNet.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IReadOnlyList<Product>>> GetProducts()
+        public async Task<ActionResult<Pagination<ProductDto>>> GetProducts(
+            [FromQuery] ProductSpecParams productParams)
         {
-            var products = await _productsRepo.ListAsync(new ProductsWithTypesAndBrandsSpecification());
-            return Ok(_mapper.Map<IReadOnlyList<Product>, IReadOnlyList<ProductDto>>(products));
+            var spec = new ProductsWithTypesAndBrandsSpecification(productParams);
+            var countSpec = new ProductsWithFiltersForCountSpec(productParams);
+            var totalItems = await _productsRepo.CountAsync(countSpec);
+            var data =
+                _mapper.Map<IReadOnlyList<Product>, IReadOnlyList<ProductDto>>(await _productsRepo.ListAsync(spec));
+
+            return Ok(new Pagination<ProductDto>(productParams.PageIndex, productParams.PageSize, totalItems, data));
         }
 
         [HttpGet("{id:int}")]
@@ -37,7 +44,8 @@ namespace ShopNet.API.Controllers
         public async Task<ActionResult<ProductDto>> GetProduct(int id)
         {
             var product = await _productsRepo.GetEntityWithSpec(new ProductsWithTypesAndBrandsSpecification(id));
-            return product != null
+
+            return product is not null
                 ? _mapper.Map<Product, ProductDto>(product)
                 : NotFound(new ApiResponse(404, "Product not found"));
         }
