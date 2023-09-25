@@ -9,6 +9,7 @@ import { environment } from 'src/environments/environment.development';
 })
 export class TestErrorComponent {
   baseUrl = environment.apiUrl;
+  validationErrors: string[] = [];
 
   constructor(private httpClient: HttpClient) {}
 
@@ -36,7 +37,10 @@ export class TestErrorComponent {
   get400ValidationError() {
     this.httpClient.get(this.baseUrl + 'products/fotrytwo').subscribe({
       next: (res) => console.log(res),
-      error: (err) => console.log(err),
+      error: (err) => {
+        console.log(err);
+        this.validationErrors = err.errors;
+      },
     });
   }
 }

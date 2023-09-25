@@ -3,9 +3,10 @@ using ShopNet.API.Errors;
 
 namespace ShopNet.API.Controllers
 {
-    [Route("errors/{code}")]
+    [Route("errors/{code:int}")]
     [ApiExplorerSettings(IgnoreApi = true)]
-    public class ErrorController
+    [ApiController]
+    public class ErrorController : BaseApiController
     {
         public IActionResult Error(int code)
         {
