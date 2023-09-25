@@ -1,3 +1,9 @@
 <div class="container-md ">
-    <h1>Server Error</h1>
+    <h4>Internal Server Error</h4>
+    <ng-container *ngIf="error">
+        <h5 class="text-danger">Error: {{error.message}}</h5>
+        <p>This is a server side error</p>
+        <p><strong>Stack Trace</strong></p>
+        <code class="mt-5 text-danger">{{error.details}}</code>
+    </ng-container>
 </div>
