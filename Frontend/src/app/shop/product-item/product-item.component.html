@@ -8,8 +8,9 @@
         </a>
         <span class="mb-2 ">{{product.price | currency}}</span>
         <div class="btn-group mt-auto ">
-            <button class="fa fa-shopping-cart p-3  me-2"></button>
-            <button class="btn btn-outline-secondary">View</button>
+            <button title="cart" class="fa fa-shopping-cart p-3  me-2"></button>
+            <button routerLink='/shop/{{product.id}}' routerLinkActive="router-link-active"
+                class="btn btn-outline-secondary">View</button>
         </div>
     </div>
 </div>
