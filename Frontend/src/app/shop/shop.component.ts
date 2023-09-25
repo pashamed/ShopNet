@@ -4,6 +4,7 @@ import { ShopService } from './shop.service';
 import { Brand } from '../shared/models/brand';
 import { Type } from '../shared/models/type';
 import { FilterParams } from '../shared/models/filterParams';
+import { PageChangedEvent } from 'ngx-bootstrap/pagination';
 
 @Component({
   selector: 'app-shop',
@@ -70,5 +71,12 @@ export class ShopComponent implements OnInit {
   onSortSelected(event: Event) {
     this.filterParams.sort = (event.target as HTMLInputElement).value;
     this.getProducts();
+  }
+
+  onPageChanged(event: PageChangedEvent) {
+    if (this.filterParams.pageNumber !== event.page) {
+      this.filterParams.pageNumber = event.page;
+      this.getProducts();
+    }
   }
 }
