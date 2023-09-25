@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Product } from '../shared/models/product';
 import { ShopService } from './shop.service';
 import { Brand } from '../shared/models/brand';
@@ -12,9 +12,10 @@ import { PageChangedEvent } from 'ngx-bootstrap/pagination';
   styleUrls: ['./shop.component.scss'],
 })
 export class ShopComponent implements OnInit {
-  public products: Product[] = [];
-  public brands: Brand[] = [];
-  public types: Type[] = [];
+  @ViewChild('search') searchTerm?: ElementRef;
+  products: Product[] = [];
+  brands: Brand[] = [];
+  types: Type[] = [];
   sortOptions = [
     { name: 'Alphabetical', value: 'name' },
     { name: 'Price: Low to high', value: 'priceAsc' },
@@ -78,5 +79,16 @@ export class ShopComponent implements OnInit {
       this.filterParams.pageNumber = page;
       this.getProducts();
     }
+  }
+
+  onSearch() {
+    this.filterParams.search = this.searchTerm?.nativeElement.value;
+    this.getProducts();
+  }
+
+  onReset() {
+    if (this.searchTerm) this.searchTerm.nativeElement.value = '';
+    this.filterParams = new FilterParams();
+    this.getProducts();
   }
 }

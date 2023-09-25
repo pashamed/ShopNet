@@ -4,4 +4,5 @@ export class FilterParams {
   sort = 'name';
   pageNumber = 1;
   pageSize = 6;
+  search = '';
 }
