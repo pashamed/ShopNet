@@ -29,7 +29,7 @@ namespace ShopNet.API.Controllers
         public ActionResult GetServerError()
         {
             var thing = _context.Products.Find(42);
-            var retunrnThing = thing.ToString();
+            var returnThing = thing.ToString();
             return Ok();
         }
 
