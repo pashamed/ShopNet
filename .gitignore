@@ -362,3 +362,5 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 /ShopNet.API/appsettings.json
+ShopNet.API/ShopNet.db-shm
+ShopNet.API/ShopNet.db-wal
