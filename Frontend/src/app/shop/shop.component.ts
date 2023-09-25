@@ -61,11 +61,13 @@ export class ShopComponent implements OnInit {
 
   onBrandSelected(brandId: number) {
     this.filterParams.brandId = brandId;
+    this.filterParams.pageNumber = 1;
     this.getProducts();
   }
 
   onTypeSelected(typeId: number) {
     this.filterParams.typeId = typeId;
+    this.filterParams.pageNumber = 1;
     this.getProducts();
   }
 
@@ -83,6 +85,7 @@ export class ShopComponent implements OnInit {
 
   onSearch() {
     this.filterParams.search = this.searchTerm?.nativeElement.value;
+    this.filterParams.pageNumber = 1;
     this.getProducts();
   }
 
