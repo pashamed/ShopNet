@@ -1,7 +1,7 @@
 <div class="card h-10s0 shadow-sm mb-2 " *ngIf="product">
     <div class="image position-relative" style="cursor: pointer;">
         <img src="{{product.pictureUrl}}" alt="{{product.name}}" class="img-fluid bg-info">
-        <div class="d-flex align-items-center justify-content-center hover-overlay">
+        <div class="d-flex align-items-end  justify-content-center hover-overlay pb-4 ">
             <button title="btn" type="button" class="btn btn-success  me-2 "><span
                     class="fa fa-shopping-cart"></span></button>
             <button routerLink="/shop/{{product.id}}" type="button" class="btn btn-primary ">View</button>

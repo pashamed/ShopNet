@@ -5,6 +5,7 @@
 
 .image :hover {
   opacity: 1;
+
   & button {
     transform: none;
     opacity: 1;
@@ -24,6 +25,6 @@
   & button {
     z-index: 1000;
     transition: all 0.5s;
-    transform: translateY(25px);
+    transform: translateY(-15px);
   }
 }
