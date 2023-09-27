@@ -6,6 +6,8 @@ using ShopNet.BLL.MappingProfiles;
 using ShopNet.BLL.Services;
 using ShopNet.DAL.Data;
 using System.Reflection;
+using System.Reflection.Metadata.Ecma335;
+using StackExchange.Redis;
 
 namespace ShopNet.API.Extensions
 {
@@ -21,6 +23,8 @@ namespace ShopNet.API.Extensions
                 opt.UseSqlite(config.GetConnectionString("DefaultConnection"),
                     m => m.MigrationsAssembly("ShopNet.DAL"));
             });
+            services.AddSingleton<IConnectionMultiplexer>(conf =>
+                ConnectionMultiplexer.Connect(ConfigurationOptions.Parse(config.GetConnectionString("Redis"))));
 
             services.AddAutoMapper(Assembly.GetAssembly(typeof(ProductProfile)));
             services.AddHttpContextAccessor();
