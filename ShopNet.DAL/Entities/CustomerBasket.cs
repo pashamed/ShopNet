@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace ShopNet.DAL.Entities
 {
+    //redis entity
     public class CustomerBasket
     {
         public string Id { get; set; }

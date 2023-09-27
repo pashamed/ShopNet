@@ -28,6 +28,7 @@ namespace ShopNet.API.Extensions
 
             services.AddAutoMapper(Assembly.GetAssembly(typeof(ProductProfile)));
             services.AddHttpContextAccessor();
+            services.AddScoped<IBasketRepository, BasketRepository>();
             services.AddScoped<IProductsRepository, ProductsService>();
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.Configure<ApiBehaviorOptions>(opt =>
