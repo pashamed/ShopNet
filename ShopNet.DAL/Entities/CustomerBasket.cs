@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Identity.Client;
+using ShopNet.DAL.Data;
 
 namespace ShopNet.DAL.Entities
 {
@@ -24,12 +26,14 @@ namespace ShopNet.DAL.Entities
 
     public class BasketItem
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
         public string ProductName { get; set; }
         public decimal Price { get; set; }
         public int Quantity { get; set; }
         public string PictureUrl { get; set; }
+
         public ProductBrand Brand { get; set; }
+
         public ProductType Type { get; set; }
     }
 }
