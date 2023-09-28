@@ -29,6 +29,7 @@ namespace ShopNet.BLL.Services
             var productBrands = await _productRepo.GetProductBrandsAsync();
             foreach (BasketItem basketItem in basket.Items)
             {
+                //Get ids from DB
                 if (basketItem.Type.Id == 0)
                 {
                     basketItem.Type.Id = productTypes.FirstOrDefault(p => p.Name == basketItem.Type.Name).Id;

@@ -1,4 +1,6 @@
-﻿namespace ShopNet.Common.DTO
+﻿using ShopNet.DAL.Entities;
+
+namespace ShopNet.Common.DTO
 {
     public class ProductDto
     {
@@ -7,7 +9,7 @@
         public string Description { get; set; }
         public decimal Price { get; set; }
         public string PictureUrl { get; set; }
-        public string ProductType { get; set; }
-        public string ProductBrand { get; set; }
+        public ProductType ProductType { get; set; }
+        public ProductBrand ProductBrand { get; set; }
     }
 }
