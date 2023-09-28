@@ -4,8 +4,8 @@ namespace ShopNet.BLL.Interfaces
 {
     public interface IBasketRepository
     {
-        Task<CustomerBasket> GetBasketAsync(string id);
-        Task<CustomerBasket> UpdateBasketAsync(CustomerBasket basket);
+        Task<Basket> GetBasketAsync(string id);
+        Task<Basket> UpdateBasketAsync(Basket basket);
         Task<bool> DeleteBasketAsync(string id);
     }
 }

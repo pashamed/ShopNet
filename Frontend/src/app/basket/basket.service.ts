@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
-import { Basket, BasketItem } from '../shared/models/basket';
+import { Basket, BasketItem, BasketTotal } from '../shared/models/basket';
 import { HttpClient } from '@angular/common/http';
 import { Product } from '../shared/models/product';
 
@@ -11,30 +11,38 @@ import { Product } from '../shared/models/product';
 export class BasketService {
   baseUrl = environment.apiUrl;
   private basketSource = new BehaviorSubject<Basket | null>(null);
-  basketSource$ = this.basketSource.asObservable();
+  private basketTotalSource = new BehaviorSubject<BasketTotal | null>(null);
+  public basketSource$ = this.basketSource.asObservable();
+  public basketTotalSource$ = this.basketTotalSource.asObservable();
 
   constructor(private httpClient: HttpClient) {}
 
   getBasket(id: string) {
     this.httpClient
       .get<Basket>(this.baseUrl + 'basket?id=' + id)
-      .subscribe((b) => this.basketSource.next(b));
+      .subscribe((b) => {
+        this.basketSource.next(b);
+        this.calculateTotal();
+      });
   }
 
   setBasket(basket: Basket) {
     return this.httpClient
       .post<Basket>(this.baseUrl + 'basket', basket)
-      .subscribe((b) => this.basketSource.next(b));
+      .subscribe((b) => {
+        this.basketSource.next(b);
+        this.calculateTotal();
+      });
   }
 
   getCurrentBasketValue() {
     return this.basketSource.value;
   }
 
-  addItem(item: Product, quantity = 1) {
-    const itemToAdd = this.mapProductToBasketItem(item);
+  addItem(item: Product | BasketItem, quantity = 1) {
+    if (this.isProduct(item)) item = this.mapProductToBasketItem(item);
     const basket = this.getCurrentBasketValue() ?? this.createBasket();
-    basket.items = this.addOrUpdateBasket(basket.items, itemToAdd, quantity);
+    basket.items = this.addOrUpdateBasket(basket.items, item, quantity);
     this.setBasket(basket);
   }
 
@@ -69,5 +77,24 @@ export class BasketService {
       brand: item.productBrand,
       type: item.productType,
     };
+  }
+  private calculateTotal() {
+    const basket = this.getCurrentBasketValue();
+    if (!basket) return;
+    const shipping = 0;
+    const subtotal = basket.items.reduce(
+      (prev, curr) => curr.price * curr.quantity + prev,
+      0
+    );
+    const total = subtotal + shipping;
+    this.basketTotalSource.next({
+      shipping,
+      total,
+      subtotal,
+    });
+  }
+
+  private isProduct(item: Product | BasketItem): item is Product {
+    return (item as Product).productBrand !== undefined;
   }
 }

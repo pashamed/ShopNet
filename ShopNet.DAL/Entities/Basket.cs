@@ -9,16 +9,16 @@ using ShopNet.DAL.Data;
 namespace ShopNet.DAL.Entities
 {
     //redis entity
-    public class CustomerBasket
+    public class Basket
     {
         public string Id { get; set; }
         public List<BasketItem> Items { get; set; } = new List<BasketItem>();
 
-        public CustomerBasket()
+        public Basket()
         {
         }
 
-        public CustomerBasket(string id)
+        public Basket(string id)
         {
             Id = id;
         }
@@ -31,9 +31,7 @@ namespace ShopNet.DAL.Entities
         public decimal Price { get; set; }
         public int Quantity { get; set; }
         public string PictureUrl { get; set; }
-
         public ProductBrand Brand { get; set; }
-
         public ProductType Type { get; set; }
     }
 }

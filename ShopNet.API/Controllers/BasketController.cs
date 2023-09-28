@@ -15,13 +15,13 @@ namespace ShopNet.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<CustomerBasket>> GetBasketId(string id)
+        public async Task<ActionResult<Basket>> GetBasketId(string id)
         {
-            return Ok(await _basketRepository.GetBasketAsync(id) ?? new CustomerBasket(id));
+            return Ok(await _basketRepository.GetBasketAsync(id) ?? new Basket(id));
         }
 
         [HttpPost]
-        public async Task<ActionResult<CustomerBasket>> UpdateBasket(CustomerBasket basket)
+        public async Task<ActionResult<Basket>> UpdateBasket(Basket basket)
         {
             return Ok(await _basketRepository.UpdateBasketAsync(basket));
         }

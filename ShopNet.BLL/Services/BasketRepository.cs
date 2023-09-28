@@ -17,13 +17,13 @@ namespace ShopNet.BLL.Services
             _database = redis.GetDatabase();
         }
 
-        public async Task<CustomerBasket> GetBasketAsync(string id)
+        public async Task<Basket> GetBasketAsync(string id)
         {
             var data = await _database.StringGetAsync(id);
-            return data.IsNullOrEmpty ? null : JsonSerializer.Deserialize<CustomerBasket>(data);
+            return data.IsNullOrEmpty ? null : JsonSerializer.Deserialize<Basket>(data);
         }
 
-        public async Task<CustomerBasket> UpdateBasketAsync(CustomerBasket basket)
+        public async Task<Basket> UpdateBasketAsync(Basket basket)
         {
             var productTypes = await _productRepo.GetProductTypesAsync();
             var productBrands = await _productRepo.GetProductBrandsAsync();
