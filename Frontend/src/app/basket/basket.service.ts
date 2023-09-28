@@ -9,7 +9,7 @@ import { Product } from '../shared/models/product';
   providedIn: 'root',
 })
 export class BasketService {
-  baseUrl = environment.apiUrl;
+  private baseUrl = environment.apiUrl;
   private basketSource = new BehaviorSubject<Basket | null>(null);
   private basketTotalSource = new BehaviorSubject<BasketTotal | null>(null);
   public basketSource$ = this.basketSource.asObservable();
@@ -44,6 +44,29 @@ export class BasketService {
     const basket = this.getCurrentBasketValue() ?? this.createBasket();
     basket.items = this.addOrUpdateBasket(basket.items, item, quantity);
     this.setBasket(basket);
+  }
+
+  removeItem(id: number, quantity = 1) {
+    const basket = this.getCurrentBasketValue();
+    if (!basket) return;
+    const item = basket.items.find((i) => i.id === id);
+    if (item) {
+      item.quantity -= quantity;
+      if (item.quantity === 0) {
+        basket.items = basket.items.filter((i) => i.id !== item.id);
+      }
+      if (basket.items.length > 0) this.setBasket(basket);
+      else this.deleteBasket(basket);
+    }
+  }
+  deleteBasket(basket: Basket) {
+    return this.httpClient
+      .delete(this.baseUrl + 'basket?id=' + basket.id)
+      .subscribe(() => {
+        this.basketSource.next(null);
+        this.basketTotalSource.next(null);
+        localStorage.removeItem('basket_id');
+      });
   }
 
   private createBasket(): Basket {
