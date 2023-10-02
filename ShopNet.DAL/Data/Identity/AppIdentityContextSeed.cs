@@ -29,4 +29,3 @@ namespace ShopNet.DAL.Data.Identity
         }
     }
 }
- .
