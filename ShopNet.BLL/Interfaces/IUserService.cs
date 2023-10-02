@@ -9,6 +9,7 @@ namespace ShopNet.BLL.Interfaces
 {
     public interface IUserService
     {
-        public Task<UserDto> UserLogin(LoginDto loginDto);
+        public Task<UserDto> RegisterAsync(RegisterDto registerDto);
+        public Task<UserDto> UserLoginAsync(LoginDto loginDto);
     }
 }

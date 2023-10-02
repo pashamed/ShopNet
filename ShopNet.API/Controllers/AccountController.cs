@@ -20,12 +20,20 @@ namespace ShopNet.API.Controllers
         [HttpPost("login")]
         public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
         {
-            if (loginDto == null) return BadRequest(loginDto.Email);
+            if (loginDto == null) return BadRequest(new ApiResponse(400,loginDto.Email));
 
-            var user = await userService.UserLogin(loginDto);
-            if (user == null) Unauthorized(new ApiResponse(401));
+            var user = await userService.UserLoginAsync(loginDto);
+            if (user == null) return Unauthorized(new ApiResponse(401));
 
             return Ok(user);
+        }
+
+        [HttpPost("register")]
+        public async Task<ActionResult<UserDto>> Register(RegisterDto loginDto)
+        {
+            var newUser = await userService.RegisterAsync(loginDto);
+            if (newUser is null) return BadRequest(new ApiResponse(400,"User is already registered"));
+            return newUser;
         }
     }
 }

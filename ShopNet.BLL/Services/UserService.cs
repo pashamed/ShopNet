@@ -19,7 +19,29 @@ namespace ShopNet.BLL.Services
             this.userManager = userManager;
             this.signInManager = signInManager;
         }
-        public async Task<UserDto> UserLogin(LoginDto loginDto)
+
+        public async Task<UserDto> RegisterAsync(RegisterDto registerDto)
+        {
+            var newUser = new AppUser
+            {
+                DisplayName = registerDto.DisplayName,
+                Email = registerDto.Email,
+                UserName = registerDto.Email
+            };
+
+            var result = await userManager.CreateAsync(newUser,registerDto.Password);
+
+            if (!result.Succeeded) return null;
+
+            return new UserDto
+            {
+                DiplayName = newUser.DisplayName,
+                Email = newUser.Email,
+                Token = "Token here"
+            };
+        }
+
+        public async Task<UserDto> UserLoginAsync(LoginDto loginDto)
         {
             var user = await userManager.FindByEmailAsync(loginDto.Email);
             if (user == null) return null;
