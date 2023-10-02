@@ -8,7 +8,7 @@ namespace ShopNet.Common.DTO.User
 {
     public class UserDto
     {
-        public string Username { get; set; }
+        public string DiplayName { get; set; }
         public string Email { get; set; }
         public string Token { get; set; }
     }
