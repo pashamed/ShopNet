@@ -3,10 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace ShopNet.DAL.Data.Migrations.Identity
+namespace ShopNet.DAL.Migrations
 {
     /// <inheritdoc />
-    public partial class IdentityInit : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
