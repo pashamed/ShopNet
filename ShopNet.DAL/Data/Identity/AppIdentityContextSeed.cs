@@ -20,7 +20,8 @@ namespace ShopNet.DAL.Data.Identity
                         LastName = "Med",
                         Street = "Kyiv street",
                         City = "Kyiv",
-                        PostalCode = "02754"
+                        PostalCode = "02754",
+                        Country = "Ukraine"
                     }
                 };
 
