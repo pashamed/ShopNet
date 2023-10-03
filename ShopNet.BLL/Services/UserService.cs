@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ShopNet.BLL.Interfaces;
+using ShopNet.Common.DTO;
 using ShopNet.Common.DTO.User;
 using ShopNet.DAL.Entities.Identity;
 using System;
@@ -17,19 +19,24 @@ namespace ShopNet.BLL.Services
         private readonly UserManager<AppUser> userManager;
         private readonly SignInManager<AppUser> signInManager;
         private readonly ITokenService tokenService;
+        private readonly IMapper mapper;
 
-        public UserService(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ITokenService tokenService)
+        public UserService(UserManager<AppUser> userManager,
+            SignInManager<AppUser> signInManager,
+            ITokenService tokenService,
+            IMapper mapper)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.tokenService = tokenService;
+            this.mapper = mapper;
         }
 
-        public async Task<Address> GetCurrentUserAddressAsync(string email)
+        public async Task<AppUser> GetCurrentUserAddressAsync(string email)
         {
             var user = await userManager.Users.Include(x => x.Address)
                 .SingleOrDefaultAsync(x => x.Email == email);
-            return user?.Address ?? null;
+            return user ?? null;
         }
 
         public async Task<UserDto> GetCurrentUserAsync(string email)
@@ -63,6 +70,14 @@ namespace ShopNet.BLL.Services
                 Email = user.Email,
                 Token = tokenService.CreateToken(user)
             };
+        }
+
+        public async Task<Address> UpdateCurrentUserAddressAsync(AddressDto address,string email)
+        {
+            var user = await GetCurrentUserAddressAsync(email);
+            if (user == null) { return null; };
+            user.Address = mapper.Map<AddressDto, Address>(address);
+            return (await userManager.UpdateAsync(user)).Succeeded ? user.Address : null;
         }
 
         public async Task<UserDto> UserLoginAsync(LoginDto loginDto)

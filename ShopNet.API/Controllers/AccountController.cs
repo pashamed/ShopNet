@@ -22,7 +22,7 @@ namespace ShopNet.API.Controllers
         }
 
         [HttpGet("emailexists")]
-        public async Task<ActionResult<bool>> CheckEmailExistsAsync([FromQuery] string email)
+        public async Task<ActionResult<bool>> CheckEmailExists([FromQuery] string email)
         {
             return await userService.GetCurrentUserAsync(email) != null;
         }
@@ -31,8 +31,17 @@ namespace ShopNet.API.Controllers
         [HttpGet("address")]
         public async Task<ActionResult<AddressDto>> GetUserAddress()
         {
-            return mapper.Map<Address,AddressDto>
-                (await userService.GetCurrentUserAddressAsync(User.FindFirstValue(ClaimTypes.Email)));
+            var user = await userService.GetCurrentUserAddressAsync(User.FindFirstValue(ClaimTypes.Email));
+            return mapper.Map<Address,AddressDto>(user.Address);
+        }
+
+        [Authorize]
+        [HttpPut("address")]
+        public async Task<ActionResult<AddressDto>> UpdateUserAddress(AddressDto address)
+        {
+            var add = await userService.UpdateCurrentUserAddressAsync(address, User.FindFirstValue(ClaimTypes.Email));
+            return add is not null ? Ok(mapper.Map<Address, AddressDto>(add)) :
+                BadRequest("Problem with updating Address");
         }
 
         [Authorize]
