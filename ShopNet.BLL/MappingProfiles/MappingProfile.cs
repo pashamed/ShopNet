@@ -11,7 +11,7 @@ namespace ShopNet.BLL.MappingProfiles
 {
     public class MappingProfile : Profile
     {
-        public MappingProfile(ITokenService tokenService)
+        public MappingProfile()
         {
             CreateMap<Product, ProductDto>()
                 //.ForMember(dest => dest.ProductBrand, opt => opt.MapFrom(src => src.ProductBrand.Name))
