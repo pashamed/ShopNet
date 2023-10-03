@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using ShopNet.BLL.Interfaces;
 using ShopNet.Common.DTO.User;
 using ShopNet.DAL.Entities.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -21,6 +23,25 @@ namespace ShopNet.BLL.Services
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.tokenService = tokenService;
+        }
+
+        public async Task<Address> GetCurrentUserAddressAsync(string email)
+        {
+            var user = await userManager.Users.Include(x => x.Address)
+                .SingleOrDefaultAsync(x => x.Email == email);
+            return user?.Address ?? null;
+        }
+
+        public async Task<UserDto> GetCurrentUserAsync(string email)
+        {
+            var user = await userManager.FindByEmailAsync(email);
+            if (user == null) { return null; }
+            return new UserDto
+            {
+                Email = user.Email,
+                Token = tokenService.CreateToken(user),
+                DiplayName = user.DisplayName
+            };         
         }
 
         public async Task<UserDto> RegisterAsync(RegisterDto registerDto)

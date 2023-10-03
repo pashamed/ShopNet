@@ -1,9 +1,5 @@
 ﻿using ShopNet.Common.DTO.User;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using ShopNet.DAL.Entities.Identity;
 
 namespace ShopNet.BLL.Interfaces
 {
@@ -11,5 +7,8 @@ namespace ShopNet.BLL.Interfaces
     {
         public Task<UserDto> RegisterAsync(RegisterDto registerDto);
         public Task<UserDto> UserLoginAsync(LoginDto loginDto);
+        public Task<UserDto> GetCurrentUserAsync(string email);
+        public Task<Address> GetCurrentUserAddressAsync(string email);
+
     }
 }

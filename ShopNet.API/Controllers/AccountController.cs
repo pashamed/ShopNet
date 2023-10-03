@@ -1,20 +1,45 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using ShopNet.DAL.Entities.Identity;
+﻿using Microsoft.AspNetCore.Mvc;
 using ShopNet.Common.DTO.User;
 using ShopNet.BLL.Interfaces;
 using ShopNet.API.Errors;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
+using ShopNet.DAL.Entities.Identity;
+using AutoMapper;
+using ShopNet.Common.DTO;
 
 namespace ShopNet.API.Controllers
 {
     public class AccountController : BaseApiController
     {
         private readonly IUserService userService;
+        private readonly IMapper mapper;
 
-        public AccountController(IUserService userService)
+        public AccountController(IUserService userService, IMapper mapper)
         {
             this.userService = userService;
+            this.mapper = mapper;
+        }
+
+        [HttpGet("emailexists")]
+        public async Task<ActionResult<bool>> CheckEmailExistsAsync([FromQuery] string email)
+        {
+            return await userService.GetCurrentUserAsync(email) != null;
+        }
+
+        [Authorize]
+        [HttpGet("address")]
+        public async Task<ActionResult<AddressDto>> GetUserAddress()
+        {
+            return mapper.Map<Address,AddressDto>
+                (await userService.GetCurrentUserAddressAsync(User.FindFirstValue(ClaimTypes.Email)));
+        }
+
+        [Authorize]
+        [HttpGet]
+        public async Task<ActionResult<UserDto>> GetCurrentUser()
+        {
+            return await userService.GetCurrentUserAsync(User.FindFirstValue(ClaimTypes.Email));
         }
 
         [HttpPost("login")]

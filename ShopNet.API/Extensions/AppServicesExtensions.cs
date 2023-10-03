@@ -26,7 +26,7 @@ namespace ShopNet.API.Extensions
             services.AddSingleton<IConnectionMultiplexer>(conf =>
                 ConnectionMultiplexer.Connect(ConfigurationOptions.Parse(config.GetConnectionString("Redis"))));
 
-            services.AddAutoMapper(Assembly.GetAssembly(typeof(ProductProfile)));
+            services.AddAutoMapper(Assembly.GetAssembly(typeof(MappingProfile)));
             services.AddHttpContextAccessor();
             services.AddScoped<IBasketRepository, BasketRepository>();
             services.AddScoped<IProductsRepository, ProductsService>();
