@@ -2,7 +2,7 @@
 
 namespace ShopNet.BLL.Interfaces
 {
-    public interface IToketService
+    public interface ITokenService
     {
         string CreateToken(AppUser user);
     }

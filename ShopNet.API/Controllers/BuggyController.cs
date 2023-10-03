@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ShopNet.API.Errors;
 using ShopNet.DAL.Data;
 
@@ -11,6 +12,13 @@ namespace ShopNet.API.Controllers
         public BuggyController(StoreContext context)
         {
             _context = context;
+        }
+
+        [HttpGet("testauth")]
+        [Authorize]
+        public ActionResult<string> GetSecretText()
+        {
+            return "secret thing";
         }
 
         [HttpGet("notfound")]

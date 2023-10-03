@@ -14,45 +14,48 @@ namespace ShopNet.BLL.Services
     {
         private readonly UserManager<AppUser> userManager;
         private readonly SignInManager<AppUser> signInManager;
-        public UserService(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
+        private readonly ITokenService tokenService;
+
+        public UserService(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ITokenService tokenService)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
+            this.tokenService = tokenService;
         }
 
         public async Task<UserDto> RegisterAsync(RegisterDto registerDto)
         {
-            var newUser = new AppUser
+            var user = new AppUser
             {
                 DisplayName = registerDto.DisplayName,
                 Email = registerDto.Email,
                 UserName = registerDto.Email
             };
 
-            var result = await userManager.CreateAsync(newUser,registerDto.Password);
+            var result = await userManager.CreateAsync(user,registerDto.Password);
 
             if (!result.Succeeded) return null;
 
             return new UserDto
             {
-                DiplayName = newUser.DisplayName,
-                Email = newUser.Email,
-                Token = "Token here"
+                DiplayName = user.DisplayName,
+                Email = user.Email,
+                Token = tokenService.CreateToken(user)
             };
         }
 
         public async Task<UserDto> UserLoginAsync(LoginDto loginDto)
         {
-            var user = await userManager.FindByEmailAsync(loginDto.Email);
-            if (user == null) return null;
-            var signInResult = await signInManager.CheckPasswordSignInAsync(user, loginDto.Password,false);
+            var newUser = await userManager.FindByEmailAsync(loginDto.Email);
+            if (newUser == null) return null;
+            var signInResult = await signInManager.CheckPasswordSignInAsync(newUser, loginDto.Password,false);
             if(!signInResult.Succeeded) return null;
 
             return new UserDto
             {
-                Email = user.Email,
-                Token = "JWT token here",
-                DiplayName = user.DisplayName
+                Email = newUser.Email,
+                Token = tokenService.CreateToken(newUser),
+                DiplayName = newUser.DisplayName
             };
         }
     }

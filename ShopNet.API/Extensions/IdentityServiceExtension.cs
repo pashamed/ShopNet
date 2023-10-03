@@ -1,11 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using ShopNet.DAL.Data.Identity;
 using ShopNet.DAL.Entities.Identity;
+using System.Text;
 
 namespace ShopNet.API.Extensions
 {
@@ -24,7 +23,17 @@ namespace ShopNet.API.Extensions
             }).AddEntityFrameworkStores<AppIdentityDbContext>()
             .AddSignInManager<SignInManager<AppUser>>();
 
-            services.AddAuthentication();
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opt =>
+            {
+                opt.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["Token:Key"])),
+                    ValidIssuer = config["Token:Issuer"],
+                    ValidateIssuer = true,
+                    ValidateAudience = false,
+                };
+            });
             services.AddAuthorization();
 
             return services;

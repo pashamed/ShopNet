@@ -8,7 +8,7 @@ using System.Text;
 
 namespace ShopNet.BLL.Services
 {
-    public class TokenService: IToketService
+    public class TokenService: ITokenService
     {
         private readonly IConfiguration config;
         private readonly SymmetricSecurityKey key;
@@ -27,12 +27,12 @@ namespace ShopNet.BLL.Services
                 new Claim(ClaimTypes.GivenName, user.DisplayName)
             };
 
-            var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+            var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.UtcNow.AddDays(int.Parse(config["Token:Expiry"])),
+                Expires = DateTime.UtcNow.AddHours(int.Parse(config["Token:Expiry"])),
                 SigningCredentials = credentials,
                 Issuer = config["Token:Issuer"]
             };
