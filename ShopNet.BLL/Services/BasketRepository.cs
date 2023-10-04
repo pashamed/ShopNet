@@ -1,8 +1,7 @@
-﻿using System.Text.Json;
-using Microsoft.IdentityModel.Tokens;
-using ShopNet.BLL.Interfaces;
+﻿using ShopNet.BLL.Interfaces;
 using ShopNet.DAL.Entities;
 using StackExchange.Redis;
+using System.Text.Json;
 
 namespace ShopNet.BLL.Services
 {
@@ -40,7 +39,6 @@ namespace ShopNet.BLL.Services
                     basketItem.Brand.Id = productBrands.FirstOrDefault(p => p.Name == basketItem.Brand.Name).Id;
                 }
             }
-
 
             var created =
                 await _database.StringSetAsync(basket.Id, JsonSerializer.Serialize(basket), TimeSpan.FromDays(30));

@@ -1,9 +1,6 @@
 ﻿using AutoMapper;
-using Microsoft.Data.SqlClient;
-using ShopNet.BLL.Interfaces;
 using ShopNet.BLL.MappingProfiles.Resolvers;
 using ShopNet.Common.DTO;
-using ShopNet.Common.DTO.User;
 using ShopNet.DAL.Entities;
 using ShopNet.DAL.Entities.Identity;
 

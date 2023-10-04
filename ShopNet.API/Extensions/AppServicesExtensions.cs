@@ -5,9 +5,8 @@ using ShopNet.BLL.Interfaces;
 using ShopNet.BLL.MappingProfiles;
 using ShopNet.BLL.Services;
 using ShopNet.DAL.Data;
-using System.Reflection;
-using System.Reflection.Metadata.Ecma335;
 using StackExchange.Redis;
+using System.Reflection;
 
 namespace ShopNet.API.Extensions
 {

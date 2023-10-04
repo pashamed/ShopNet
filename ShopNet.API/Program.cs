@@ -5,7 +5,6 @@ using ShopNet.API.Middleware;
 using ShopNet.DAL.Data;
 using ShopNet.DAL.Data.Identity;
 using ShopNet.DAL.Entities.Identity;
-using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 

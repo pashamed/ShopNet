@@ -10,6 +10,7 @@ namespace ShopNet.API.Extensions
 {
     public static class IdentityServiceExtension
     {
+        //TODO add FirebaseAuth
         public static IServiceCollection AddIdentityServices(this IServiceCollection services, IConfiguration config)
         {
             services.AddDbContext<AppIdentityDbContext>(opt =>

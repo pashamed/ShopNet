@@ -1,12 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using ShopNet.Common.DTO.User;
-using ShopNet.BLL.Interfaces;
-using ShopNet.API.Errors;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
-using System.Security.Claims;
-using ShopNet.DAL.Entities.Identity;
-using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using ShopNet.API.Errors;
+using ShopNet.BLL.Interfaces;
 using ShopNet.Common.DTO;
+using ShopNet.Common.DTO.User;
+using ShopNet.DAL.Entities.Identity;
+using System.Security.Claims;
 
 namespace ShopNet.API.Controllers
 {
@@ -32,7 +32,7 @@ namespace ShopNet.API.Controllers
         public async Task<ActionResult<AddressDto>> GetUserAddress()
         {
             var user = await userService.GetCurrentUserAddressAsync(User.FindFirstValue(ClaimTypes.Email));
-            return mapper.Map<Address,AddressDto>(user.Address);
+            return mapper.Map<Address, AddressDto>(user.Address);
         }
 
         [Authorize]
@@ -54,7 +54,7 @@ namespace ShopNet.API.Controllers
         [HttpPost("login")]
         public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
         {
-            if (loginDto == null) return BadRequest(new ApiResponse(400,loginDto.Email));
+            if (loginDto == null) return BadRequest(new ApiResponse(400, loginDto.Email));
 
             var user = await userService.UserLoginAsync(loginDto);
             if (user == null) return Unauthorized(new ApiResponse(401));
@@ -66,7 +66,7 @@ namespace ShopNet.API.Controllers
         public async Task<ActionResult<UserDto>> Register(RegisterDto loginDto)
         {
             var newUser = await userService.RegisterAsync(loginDto);
-            if (newUser is null) return BadRequest(new ApiResponse(400,"User is already registered"));
+            if (newUser is null) return BadRequest(new ApiResponse(400, "User is already registered"));
             return newUser;
         }
     }

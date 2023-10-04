@@ -5,12 +5,6 @@ using ShopNet.BLL.Interfaces;
 using ShopNet.Common.DTO;
 using ShopNet.Common.DTO.User;
 using ShopNet.DAL.Entities.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ShopNet.BLL.Services
 {
@@ -48,7 +42,7 @@ namespace ShopNet.BLL.Services
                 Email = user.Email,
                 Token = tokenService.CreateToken(user),
                 DiplayName = user.DisplayName
-            };         
+            };
         }
 
         public async Task<UserDto> RegisterAsync(RegisterDto registerDto)
@@ -60,7 +54,7 @@ namespace ShopNet.BLL.Services
                 UserName = registerDto.Email
             };
 
-            var result = await userManager.CreateAsync(user,registerDto.Password);
+            var result = await userManager.CreateAsync(user, registerDto.Password);
 
             if (!result.Succeeded) return null;
 
@@ -72,7 +66,7 @@ namespace ShopNet.BLL.Services
             };
         }
 
-        public async Task<Address> UpdateCurrentUserAddressAsync(AddressDto address,string email)
+        public async Task<Address> UpdateCurrentUserAddressAsync(AddressDto address, string email)
         {
             var user = await GetCurrentUserAddressAsync(email);
             if (user == null) { return null; };
@@ -84,8 +78,8 @@ namespace ShopNet.BLL.Services
         {
             var newUser = await userManager.FindByEmailAsync(loginDto.Email);
             if (newUser == null) return null;
-            var signInResult = await signInManager.CheckPasswordSignInAsync(newUser, loginDto.Password,false);
-            if(!signInResult.Succeeded) return null;
+            var signInResult = await signInManager.CheckPasswordSignInAsync(newUser, loginDto.Password, false);
+            if (!signInResult.Succeeded) return null;
 
             return new UserDto
             {

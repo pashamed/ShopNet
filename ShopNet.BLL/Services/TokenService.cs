@@ -8,7 +8,7 @@ using System.Text;
 
 namespace ShopNet.BLL.Services
 {
-    public class TokenService: ITokenService
+    public class TokenService : ITokenService
     {
         private readonly IConfiguration config;
         private readonly SymmetricSecurityKey key;
@@ -21,7 +21,7 @@ namespace ShopNet.BLL.Services
 
         public string CreateToken(AppUser user)
         {
-            var claims = new List<Claim> 
+            var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Email,user.Email),
                 new Claim(ClaimTypes.GivenName, user.DisplayName)
@@ -40,7 +40,6 @@ namespace ShopNet.BLL.Services
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
             return tokenHandler.WriteToken(token);
-            
         }
     }
 }
