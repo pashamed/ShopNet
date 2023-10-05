@@ -41,7 +41,7 @@ namespace ShopNet.BLL.Services
             {
                 Email = user.Email,
                 Token = tokenService.CreateToken(user),
-                DiplayName = user.DisplayName
+                DisplayName = user.DisplayName
             };
         }
 
@@ -60,7 +60,7 @@ namespace ShopNet.BLL.Services
 
             return new UserDto
             {
-                DiplayName = user.DisplayName,
+                DisplayName = user.DisplayName,
                 Email = user.Email,
                 Token = tokenService.CreateToken(user)
             };
@@ -85,7 +85,7 @@ namespace ShopNet.BLL.Services
             {
                 Email = newUser.Email,
                 Token = tokenService.CreateToken(newUser),
-                DiplayName = newUser.DisplayName
+                DisplayName = newUser.DisplayName
             };
         }
     }
