@@ -65,6 +65,13 @@ namespace ShopNet.API.Controllers
         [HttpPost("register")]
         public async Task<ActionResult<UserDto>> Register(RegisterDto loginDto)
         {
+            if (CheckEmailExists(loginDto.Email).Result.Value)
+            {
+                return new BadRequestObjectResult(new ApiValidationErrorResponse
+                {
+                    Errors = new[] { "Email address is in use" }
+                });
+            } 
             var newUser = await userService.RegisterAsync(loginDto);
             if (newUser is null) return BadRequest(new ApiResponse(400, "User is already registered"));
             return newUser;

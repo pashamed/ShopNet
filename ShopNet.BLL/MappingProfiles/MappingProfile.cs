@@ -16,6 +16,8 @@ namespace ShopNet.BLL.MappingProfiles
                 .ForMember(dest => dest.PictureUrl, opt => opt.MapFrom<ProductUrlResolver>());
 
             CreateMap<Address, AddressDto>().ReverseMap();
+            CreateMap<Basket, BasketDto>().ReverseMap();
+            CreateMap<BasketItem, BasketItemDto>().ReverseMap();
             //CreateMap<AppUser, UserDto>();
         }
     }

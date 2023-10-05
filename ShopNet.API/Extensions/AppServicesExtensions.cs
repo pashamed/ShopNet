@@ -14,13 +14,11 @@ namespace ShopNet.API.Extensions
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration config)
         {
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            services.AddEndpointsApiExplorer();
-            services.AddSwaggerGen();
+            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle         
             services.AddDbContext<StoreContext>(opt =>
             {
                 opt.UseSqlite(config.GetConnectionString("DefaultConnection"),
-                    m => m.MigrationsAssembly("ShopNet.DAL"));
+                    m => m.MigrationsAssembly(typeof(StoreContext).Assembly.FullName));
             });
             services.AddSingleton<IConnectionMultiplexer>(conf =>
                 ConnectionMultiplexer.Connect(ConfigurationOptions.Parse(config.GetConnectionString("Redis"))));
