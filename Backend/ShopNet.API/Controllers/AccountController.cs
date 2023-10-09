@@ -48,7 +48,8 @@ namespace ShopNet.API.Controllers
         [HttpGet]
         public async Task<ActionResult<UserDto>> GetCurrentUser()
         {
-            return await userService.GetCurrentUserAsync(User.FindFirstValue(ClaimTypes.Email));
+            var user = User.FindFirstValue(ClaimTypes.Email);
+            return await userService.GetCurrentUserAsync(user);
         }
 
         [HttpPost("login")]
@@ -71,7 +72,7 @@ namespace ShopNet.API.Controllers
                 {
                     Errors = new[] { "Email address is in use" }
                 });
-            } 
+            }
             var newUser = await userService.RegisterAsync(loginDto);
             if (newUser is null) return BadRequest(new ApiResponse(400, "User is already registered"));
             return newUser;
