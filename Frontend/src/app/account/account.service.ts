@@ -4,6 +4,7 @@ import { BehaviorSubject, firstValueFrom, map, of } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
 import { User } from '../shared/models/user';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +15,11 @@ export class AccountService {
   public currentUser$ = this.currentUserSource.asObservable();
   public user: User | undefined;
 
-  constructor(private httpClient: HttpClient, private router: Router) {}
+  constructor(
+    private httpClient: HttpClient,
+    private router: Router,
+    private toastr: ToastrService
+  ) {}
 
   async loadCurrentUser(token: string) {
     let headers = new HttpHeaders();
@@ -47,6 +52,7 @@ export class AccountService {
       onfulfilled: {
         this.user = user;
         localStorage.setItem('token', user.token);
+        this.toastr.success('Log in', user.displayName);
       }
     });
     // return this.httpClient
