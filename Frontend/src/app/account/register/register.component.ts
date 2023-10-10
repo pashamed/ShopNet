@@ -1,7 +1,13 @@
 import { Component } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  AsyncValidatorFn,
+  FormBuilder,
+  Validators,
+} from '@angular/forms';
 import { AccountService } from '../account.service';
 import { Router } from '@angular/router';
+import { debounceTime, finalize, map, switchMap, take } from 'rxjs';
 
 @Component({
   selector: 'app-register',
@@ -10,6 +16,7 @@ import { Router } from '@angular/router';
 })
 export class RegisterComponent {
   complexPassword = new RegExp('^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*\\W).+$');
+  errors: string[] | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -19,17 +26,36 @@ export class RegisterComponent {
 
   registerForm = this.fb.group({
     displayName: ['', Validators.required],
-    email: ['', [Validators.required, Validators.email]],
+    email: [
+      '',
+      [Validators.required, Validators.email],
+      [this.validateEmailNotTaken()],
+    ],
     password: [
       '',
-      Validators.required,
-      Validators.pattern(this.complexPassword),
+      [Validators.required, Validators.pattern(this.complexPassword)],
     ],
   });
 
   onSubmit() {
-    this.accountService
-      .register(this.registerForm.value)
-      .then(() => this.router.navigateByUrl('/shop'));
+    this.accountService.register(this.registerForm.value).then(
+      () => this.router.navigateByUrl('/shop'),
+      (error) => (this.errors = error.errors)
+    );
+  }
+
+  validateEmailNotTaken(): AsyncValidatorFn {
+    return (control: AbstractControl) => {
+      return control.valueChanges.pipe(
+        debounceTime(1000),
+        take(1),
+        switchMap(() => {
+          return this.accountService.checkEmailExists(control.value).pipe(
+            map((result) => (result ? { emailExists: true } : null))
+            //finalize(() => control.markAsTouched())
+          );
+        })
+      );
+    };
   }
 }
