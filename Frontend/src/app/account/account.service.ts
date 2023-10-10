@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, firstValueFrom, map, of } from 'rxjs';
+import { ReplaySubject, firstValueFrom } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
 import { User } from '../shared/models/user';
 import { Router } from '@angular/router';
@@ -11,9 +11,9 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class AccountService {
   baseUrl = environment.apiUrl;
-  private currentUserSource = new BehaviorSubject<User | null>(null);
+  private currentUserSource = new ReplaySubject<User | null>(1);
   public currentUser$ = this.currentUserSource.asObservable();
-  public user: User | undefined;
+  public user: User | null = null;
 
   constructor(
     private httpClient: HttpClient,
@@ -21,14 +21,16 @@ export class AccountService {
     private toastr: ToastrService
   ) {}
 
-  async loadCurrentUser(token: string) {
+  async loadCurrentUser(token: string | null) {
     let headers = new HttpHeaders();
     headers = headers.set('Authorization', `Bearer ${token}`);
     this.user = await firstValueFrom(
       this.httpClient.get<User>(this.baseUrl + 'account', { headers })
     ).then((user) => {
       onfulfilled: {
+        this.currentUserSource.next(user);
         localStorage.setItem('token', user.token);
+        this.user = user;
         return user;
       }
     });
@@ -40,6 +42,7 @@ export class AccountService {
     ).then((user) => {
       onfulfilled: {
         this.user = user;
+        this.currentUserSource.next(user);
         localStorage.setItem('token', user.token);
       }
     });
@@ -68,7 +71,8 @@ export class AccountService {
 
   public logout() {
     localStorage.removeItem('token');
-    this.user = undefined;
+    this.user = null;
+    this.currentUserSource.next(null);
     this.router.navigateByUrl('/');
   }
 
