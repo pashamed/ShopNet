@@ -25,8 +25,8 @@ export class LoginComponent {
       this.activatedRoute.snapshot.queryParams['returnUrl'] || '/shop';
   }
 
-  onSubmit() {
-    this.accountService
+  async onSubmit() {
+    await this.accountService
       .login(this.loginForm.value)
       .then(() => this.router.navigateByUrl(this.returnUrl));
   }

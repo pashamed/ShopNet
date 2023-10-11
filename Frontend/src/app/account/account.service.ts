@@ -19,7 +19,9 @@ export class AccountService {
     private httpClient: HttpClient,
     private router: Router,
     private toastr: ToastrService
-  ) {}
+  ) {
+    this.getCurrentUser();
+  }
 
   async loadCurrentUser(token: string | null) {
     let headers = new HttpHeaders();
@@ -27,46 +29,32 @@ export class AccountService {
     this.user = await firstValueFrom(
       this.httpClient.get<User>(this.baseUrl + 'account', { headers })
     ).then((user) => {
-      onfulfilled: {
-        this.currentUserSource.next(user);
-        localStorage.setItem('token', user.token);
-        this.user = user;
-        return user;
-      }
+      this.currentUserSource.next(user);
+      localStorage.setItem('token', user.token);
+      return user;
     });
   }
 
   async login(values: any) {
-    await firstValueFrom(
+    this.user = await firstValueFrom(
       this.httpClient.post<User>(this.baseUrl + 'account/login', values)
     ).then((user) => {
-      onfulfilled: {
-        this.user = user;
-        this.currentUserSource.next(user);
-        localStorage.setItem('token', user.token);
-      }
+      this.currentUserSource.next(user);
+      localStorage.setItem('token', user.token);
+      return user;
     });
   }
 
   async register(values: any) {
-    await firstValueFrom(
+    this.user = await firstValueFrom(
       this.httpClient.post<User>(this.baseUrl + 'account/register', values)
     ).then((user) => {
       onfulfilled: {
-        this.user = user;
         localStorage.setItem('token', user.token);
         this.toastr.success('Log in', user.displayName);
+        return user;
       }
     });
-    // return this.httpClient
-    //   .post<User>(this.baseUrl + 'account/register', values)
-    //   .pipe(
-    //     map((user) => {
-    //       localStorage.setItem('token', user.token);
-    //       this.currentUserSource.next(user);
-    //       this.user = user;
-    //     })
-    //   );
   }
 
   public logout() {
@@ -79,6 +67,12 @@ export class AccountService {
   checkEmailExists(email: string) {
     return this.httpClient.get<boolean>(
       this.baseUrl + 'account/emailexists?email=' + email
+    );
+  }
+
+  async getCurrentUser() {
+    await firstValueFrom(this.currentUserSource.asObservable()).then(
+      (user) => (this.user = user)
     );
   }
 }

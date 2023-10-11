@@ -5,6 +5,7 @@ import { TestErrorComponent } from './core/test-error/test-error.component';
 import { NotFoundComponent } from './core/not-found/not-found.component';
 import { ServerErrorComponent } from './core/server-error/server-error.component';
 import { authGuard } from './core/guards/auth.guard';
+import { AccountModule } from './account/account.module';
 
 const routes: Routes = [
   { path: '', component: HomeComponent, data: { breadcrumb: 'Home' } },

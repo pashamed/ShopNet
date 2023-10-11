@@ -8,7 +8,6 @@ import { SharedModule } from '../shared/shared.module';
 import { AccountService } from './account.service';
 
 @NgModule({
-  providers: [AccountService],
   declarations: [LoginComponent, RegisterComponent],
   imports: [
     AccountRoutingModule,
