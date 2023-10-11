@@ -12,18 +12,19 @@ import { ToastrService } from 'ngx-toastr';
 export class AccountService {
   baseUrl = environment.apiUrl;
   private currentUserSource = new ReplaySubject<User | null>(1);
-  public currentUser$ = this.currentUserSource.asObservable();
   public user: User | null = null;
 
   constructor(
     private httpClient: HttpClient,
     private router: Router,
     private toastr: ToastrService
-  ) {
-    this.getCurrentUser();
-  }
+  ) {}
 
   async loadCurrentUser(token: string | null) {
+    if (token === null) {
+      this.currentUserSource.next(null);
+      return;
+    }
     let headers = new HttpHeaders();
     headers = headers.set('Authorization', `Bearer ${token}`);
     this.user = await firstValueFrom(
@@ -71,8 +72,6 @@ export class AccountService {
   }
 
   async getCurrentUser() {
-    await firstValueFrom(this.currentUserSource.asObservable()).then(
-      (user) => (this.user = user)
-    );
+    this.user = await firstValueFrom(this.currentUserSource.asObservable());
   }
 }
