@@ -261,10 +261,11 @@ UpgradeLog*.htm
 ServiceFabricBackup/
 *.rptproj.bak
 
-# SQL Server files
+# SQL Server files and db files
 *.mdf
 *.ldf
 *.ndf
+*.db
 
 # Business Intelligence projects
 *.rdl.data
@@ -364,3 +365,7 @@ FodyWeavers.xsd
 /ShopNet.API/appsettings.json
 ShopNet.API/ShopNet.db-shm
 ShopNet.API/ShopNet.db-wal
+Backend/ShopNet.API/identity.db-shm
+Backend/ShopNet.API/identity.db-wal
+Backend/ShopNet.API/ShopNet.db-shm
+Backend/ShopNet.API/ShopNet.db-wal
