@@ -1,4 +1,5 @@
 ﻿using ShopNet.DAL.Entities;
+using ShopNet.DAL.Entities.OrderAggregate;
 using System.Text.Json;
 
 namespace ShopNet.DAL.Data
@@ -29,6 +30,13 @@ namespace ShopNet.DAL.Data
                     product.ProductBrand = await context.ProductBrands.FindAsync(product.ProductBrand.Id);
                 }
                 await context.Products.AddRangeAsync(products);
+            }
+
+            if (!context.DeliveryMethods.Any())
+            {
+                var deliveryData = await File.ReadAllTextAsync("../ShopNet.DAL/SeedData/delivery.json");
+                var methods = JsonSerializer.Deserialize<List<DeliveryMethod>>(deliveryData);
+                await context.DeliveryMethods.AddRangeAsync(methods);
             }
 
             if (context.ChangeTracker.HasChanges()) await context.SaveChangesAsync();
