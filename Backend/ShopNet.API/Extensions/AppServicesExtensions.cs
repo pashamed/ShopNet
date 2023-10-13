@@ -31,6 +31,7 @@ namespace ShopNet.API.Extensions
 
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped<IOrderService,OrderService>();
 
             services.Configure<ApiBehaviorOptions>(opt =>
             {

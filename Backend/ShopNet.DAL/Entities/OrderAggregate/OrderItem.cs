@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ShopNet.DAL.Entities.OrderAggregate
 {
-    public class OrderItem:BaseEntity
+    public class OrderItem : BaseEntity
     {
         public OrderItem()
         {
@@ -14,12 +14,12 @@ namespace ShopNet.DAL.Entities.OrderAggregate
 
         public OrderItem(ProductItemOredered itemOredered, decimal price, int quantity)
         {
-            ItemOredered = itemOredered;
+            ItemOrdered = itemOredered;
             Price = price;
             Quantity = quantity;
         }
 
-        public ProductItemOredered ItemOredered { get; set; }
+        public ProductItemOredered ItemOrdered { get; set; }
         public decimal Price { get; set; }
         public int Quantity { get; set; }
 

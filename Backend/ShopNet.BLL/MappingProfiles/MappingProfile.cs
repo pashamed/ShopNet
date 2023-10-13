@@ -18,6 +18,7 @@ namespace ShopNet.BLL.MappingProfiles
             CreateMap<Address, AddressDto>().ReverseMap();
             CreateMap<Basket, BasketDto>().ReverseMap();
             CreateMap<BasketItem, BasketItemDto>().ReverseMap();
+            CreateMap<AddressDto, ShopNet.DAL.Entities.OrderAggregate.Address>();
             //CreateMap<AppUser, UserDto>();
         }
     }
