@@ -1,5 +1,6 @@
 ﻿using ShopNet.BLL.Interfaces;
 using ShopNet.BLL.Services.Abstract;
+using ShopNet.BLL.Specifications;
 using ShopNet.DAL.Data;
 using ShopNet.DAL.Entities;
 using ShopNet.DAL.Entities.OrderAggregate;
@@ -48,14 +49,14 @@ namespace ShopNet.BLL.Services
             return await unitOfWork.Repository<DeliveryMethod>().ListAllAsync();
         }
 
-        public Task<Order> GetOrderByIdAsync(int id, string buyerEmail)
+        public async Task<Order> GetOrderByIdAsync(int id, string buyerEmail)
         {
-            throw new NotImplementedException();
+            return await unitOfWork.Repository<Order>().GetEntityWithSpec(new OrdersWithItemsAndOrderingSpecification(id, buyerEmail));
         }
 
-        public Task<IReadOnlyList<Order>> GetOrdersForUserAsync(string buyerEmail)
+        public async Task<IReadOnlyList<Order>> GetOrdersForUserAsync(string buyerEmail)
         {
-            throw new NotImplementedException();
+            return await unitOfWork.Repository<Order>().ListAsync(new OrdersWithItemsAndOrderingSpecification(buyerEmail));
         }
     }
 }

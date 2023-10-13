@@ -31,5 +31,25 @@ namespace ShopNet.API.Controllers
                 mapper.Map<AddressDto, Address>(orderDto.ShipToAddress));
             return order is null ? BadRequest(new ApiResponse(400, "Problem creating order")) : Ok(order);
         }
+
+        [HttpGet]
+        public async Task<ActionResult<IReadOnlyList<OrderWithItemsDto>>> GetOrdersForUser()
+        {
+            var orders = await orderService.GetOrdersForUserAsync(User.FindFirstValue(ClaimTypes.Email));
+            return Ok(mapper.Map<IReadOnlyList<OrderWithItemsDto>>(orders));
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<OrderWithItemsDto>> GetOrderByIdForUser(int id)
+        {
+            var order = await orderService.GetOrderByIdAsync(id, User.FindFirstValue(ClaimTypes.Email));
+            return order is null ? NotFound(new ApiResponse(404)) : mapper.Map<OrderWithItemsDto>(order);
+        }
+
+        [HttpGet("deliveryMethods")]
+        public async Task<ActionResult<IReadOnlyList<Order>>> GetDeliveryMethods()
+        {
+            return Ok(await orderService.GetDeliveryMethodsAsync());
+        }
     }
 }
