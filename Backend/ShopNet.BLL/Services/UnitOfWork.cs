@@ -35,13 +35,14 @@ namespace ShopNet.BLL.Services
             repositories ??= new Hashtable();
 
             var type = typeof(GenericRepository<TEntity>);
-            if (!repositories.ContainsKey(type.Name))
+            var contains = !repositories.ContainsKey(type);
+            if (!repositories.ContainsKey(type))
             {
                 var repoInstance = Activator.CreateInstance(type, context);
-                repositories.Add(type.Name, repoInstance);
+                repositories.Add(type, repoInstance);
             }
-
-            return (IGenericRepository<TEntity>)repositories[type];
+            var repo = (IGenericRepository<TEntity>)repositories[type];
+            return repo;
         }
     }
 }

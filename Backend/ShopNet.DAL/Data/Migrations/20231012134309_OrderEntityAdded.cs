@@ -110,9 +110,9 @@ namespace ShopNet.DAL.Data.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    ItemOredered_Id = table.Column<int>(type: "INTEGER", nullable: false),
-                    ItemOredered_Name = table.Column<string>(type: "TEXT", nullable: false),
-                    ItemOredered_PictureUrl = table.Column<string>(type: "TEXT", nullable: false),
+                    ItemOrdered_Id = table.Column<int>(type: "INTEGER", nullable: false),
+                    ItemOrdered_Name = table.Column<string>(type: "TEXT", nullable: false),
+                    ItemOrdered_PictureUrl = table.Column<string>(type: "TEXT", nullable: false),
                     Price = table.Column<double>(type: "decimal(18,2)", nullable: false),
                     Quantity = table.Column<int>(type: "INTEGER", nullable: false),
                     OrderId = table.Column<int>(type: "INTEGER", nullable: true)

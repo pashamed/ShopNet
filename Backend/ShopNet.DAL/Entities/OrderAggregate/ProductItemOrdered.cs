@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace ShopNet.DAL.Entities.OrderAggregate
 {
-    public class ProductItemOredered
+    public class ProductItemOrdered
     {
-        public ProductItemOredered()
+        public ProductItemOrdered()
         {
         }
 
-        public ProductItemOredered(int id, string name, string pictureUrl)
+        public ProductItemOrdered(int id, string name, string pictureUrl)
         {
             Id = id;
             Name = name;
@@ -21,6 +21,6 @@ namespace ShopNet.DAL.Entities.OrderAggregate
 
         public int Id { get; set; }
         public string Name { get; set; }
-        public string PictureUrl{ get; set; }
+        public string PictureUrl { get; set; }
     }
 }
