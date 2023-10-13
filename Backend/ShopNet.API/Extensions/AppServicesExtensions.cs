@@ -28,10 +28,11 @@ namespace ShopNet.API.Extensions
             services.AddScoped<IBasketRepository, BasketRepository>();
             services.AddScoped<IProductsRepository, ProductsService>();
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ITokenService, TokenService>();
-            services.AddScoped<IOrderService,OrderService>();
+            services.AddScoped<IOrderService, OrderService>();
 
             services.Configure<ApiBehaviorOptions>(opt =>
             {
