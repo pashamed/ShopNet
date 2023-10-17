@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace ShopNet.DAL.Entities.OrderAggregate
@@ -11,7 +12,6 @@ namespace ShopNet.DAL.Entities.OrderAggregate
         public Address()
         {
         }
-
         public Address(string firstName, string lastName, string street, string city, string postalCode, string country)
         {
             FirstName = firstName;
@@ -24,7 +24,7 @@ namespace ShopNet.DAL.Entities.OrderAggregate
 
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string Street { get; set; }  
+        public string Street { get; set; }
         public string City { get; set; }
         public string PostalCode { get; set; }
         public string Country { get; set; }

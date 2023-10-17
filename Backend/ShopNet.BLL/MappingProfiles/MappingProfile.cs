@@ -19,9 +19,14 @@ namespace ShopNet.BLL.MappingProfiles
             CreateMap<Basket, BasketDto>().ReverseMap();
             CreateMap<BasketItem, BasketItemDto>().ReverseMap();
             CreateMap<AddressDto, Address>();
-            CreateMap<Order, OrderWithItemsDto>();
-            CreateMap<OrderItem, OrderItemDto>();
-            //CreateMap<AppUser, UserDto>();2`
+            CreateMap<Order, OrderWithItemsDto>()
+               .ForMember(d => d.DeliveryMethod, o => o.MapFrom(s => s.DeliveryMethod.ShortName))
+               .ForMember(d => d.ShippingPrice, o => o.MapFrom(s => s.DeliveryMethod.Price));
+            CreateMap<OrderItem, OrderItemDto>()
+                .ForMember(d => d.ProductId, o => o.MapFrom(s => s.ItemOrdered.ProductItemId))
+                .ForMember(d => d.ProductName, o => o.MapFrom(s => s.ItemOrdered.ProductName))
+                .ForMember(d => d.PictureUrl, o => o.MapFrom<OrderItemUrlResolver>());
+            //CreateMap<AppUser, UserDto>();
         }
     }
 }

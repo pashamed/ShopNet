@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ShopNet.API.Extensions;
@@ -12,7 +13,7 @@ builder.Services.AddControllers();
 builder.Services.AddLogging();
 builder.Services.AddApplicationServices(builder.Configuration);
 builder.Services.AddIdentityServices(builder.Configuration);
-builder.Services.AddSwaggerDocumentaion();
+builder.Services.AddSwaggerDocumentation();
 
 var app = builder.Build();
 

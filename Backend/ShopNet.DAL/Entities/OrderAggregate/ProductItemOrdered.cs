@@ -14,13 +14,13 @@ namespace ShopNet.DAL.Entities.OrderAggregate
 
         public ProductItemOrdered(int id, string name, string pictureUrl)
         {
-            Id = id;
-            Name = name;
+            ProductItemId = id;
+            ProductName = name;
             PictureUrl = pictureUrl;
         }
 
-        public int Id { get; set; }
-        public string Name { get; set; }
+        public int ProductItemId { get; set; }
+        public string ProductName { get; set; }
         public string PictureUrl { get; set; }
     }
 }

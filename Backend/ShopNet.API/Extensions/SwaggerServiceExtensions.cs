@@ -5,10 +5,11 @@ namespace ShopNet.API.Extensions
 {
     public static class SwaggerServiceExtensions
     {
-        public static IServiceCollection AddSwaggerDocumentaion(this IServiceCollection services)
+        public static IServiceCollection AddSwaggerDocumentation(this IServiceCollection services)
         {
             services.AddEndpointsApiExplorer();
-            services.AddSwaggerGen(conf =>{
+            services.AddSwaggerGen(conf =>
+            {
                 var securitySchema = new OpenApiSecurityScheme
                 {
                     Description = "Jwt Auth Bearer Scheme",
@@ -35,7 +36,7 @@ namespace ShopNet.API.Extensions
             return services;
         }
 
-        public static IApplicationBuilder UseSwaggerDocumentation (this IApplicationBuilder app)
+        public static IApplicationBuilder UseSwaggerDocumentation(this IApplicationBuilder app)
         {
             app.UseSwagger();
             app.UseSwaggerUI();

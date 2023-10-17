@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace ShopNet.DAL.Entities.OrderAggregate
 {
-    public class Order:BaseEntity
+    public class Order : BaseEntity
     {
         public Order()
         {
@@ -34,8 +29,8 @@ namespace ShopNet.DAL.Entities.OrderAggregate
         public string PaymentIntentId { get; set; } = string.Empty;
 
         public decimal GetTotal()
-        { 
-            return Subtotal + DeliveryMethod.Price; 
+        {
+            return Subtotal + DeliveryMethod.Price;
         }
     }
 }

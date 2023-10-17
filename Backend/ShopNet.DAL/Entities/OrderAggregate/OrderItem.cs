@@ -12,9 +12,9 @@ namespace ShopNet.DAL.Entities.OrderAggregate
         {
         }
 
-        public OrderItem(ProductItemOrdered itemOredered, decimal price, int quantity)
+        public OrderItem(ProductItemOrdered itemOrdered, decimal price, int quantity)
         {
-            ItemOrdered = itemOredered;
+            ItemOrdered = itemOrdered;
             Price = price;
             Quantity = quantity;
         }
