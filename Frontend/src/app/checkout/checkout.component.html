@@ -3,17 +3,33 @@
     <div class="row">
         <div class="col-8">
             <app-stepper [linearModeSelected]="false" #appStepper>
-                <cdk-step [label]="'Address'">
+                <cdk-step [label]="'Address'" [completed]="checkoutForm.get('addressForm')?.valid">
                     <app-checkout-address [checkoutForm]="checkoutForm"></app-checkout-address>
+                    <div class="d-flex justify-content-between flex-row mb-5">
+                        <button class="btn btn-outline-primary " routerLink="/basket">Back to basket</button>
+                        <button class="btn btn-outline-primary " cdkStepperNext>Next</button>
+                    </div>
                 </cdk-step>
-                <cdk-step [label]="'Delivery'">
+                <cdk-step [label]="'Delivery'" [completed]="checkoutForm.get('deliveryForm')?.valid">
                     <app-checkout-delivery [checkoutForm]="checkoutForm"></app-checkout-delivery>
+                    <div class="d-flex justify-content-between flex-row mb-5">
+                        <button class="btn btn-outline-primary " cdkStepperPrevious>Previous</button>
+                        <button class="btn btn-outline-primary " cdkStepperNext>Next</button>
+                    </div>
                 </cdk-step>
                 <cdk-step [label]="'Review'">
                     <app-checkout-review></app-checkout-review>
+                    <div class="d-flex justify-content-between flex-row mb-5">
+                        <button class="btn btn-outline-primary " cdkStepperPrevious>Previous</button>
+                        <button class="btn btn-outline-primary " cdkStepperNext>Next</button>
+                    </div>
                 </cdk-step>
                 <cdk-step [label]="'Payment'">
                     <app-checkout-payment></app-checkout-payment>
+                    <div class="d-flex justify-content-between flex-row mb-5">
+                        <button class="btn btn-outline-primary " cdkStepperPrevious>Previous</button>
+                        <button class="btn btn-outline-primary " cdkStepperNext>Next</button>
+                    </div>
                 </cdk-step>
             </app-stepper>
         </div>

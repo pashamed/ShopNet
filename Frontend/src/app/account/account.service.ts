@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ReplaySubject, firstValueFrom } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
-import { User } from '../shared/models/user';
+import { Address, User } from '../shared/models/user';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 
@@ -58,7 +58,7 @@ export class AccountService {
     });
   }
 
-  public logout() {
+  logout() {
     localStorage.removeItem('token');
     this.user = null;
     this.currentUserSource.next(null);
@@ -73,5 +73,22 @@ export class AccountService {
 
   async getCurrentUser() {
     this.user = await firstValueFrom(this.currentUserSource.asObservable());
+  }
+  async getCurrentUserAddress() {
+    if (this.user) {
+      this.user.address = await firstValueFrom(
+        this.httpClient.get<Address>(this.baseUrl + 'account/address')
+      );
+      this.currentUserSource.next(this.user);
+    }
+  }
+
+  async updateUserAddress(address: Address) {
+    if (this.user) this.user.address = address;
+    this.currentUserSource.next(this.user);
+    await firstValueFrom(
+      this.httpClient.put(this.baseUrl + 'account/address', address)
+    );
+    this.toastr.success('Address saved');
   }
 }

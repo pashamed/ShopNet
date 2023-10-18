@@ -1,14 +1,22 @@
-import { Component } from '@angular/core';
-import { AccountService } from '../account/account.service';
+import { StepperSelectionEvent } from '@angular/cdk/stepper';
+import { Component, EventEmitter, Input, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { AccountService } from '../account/account.service';
+import { Address } from '../shared/models/user';
 
 @Component({
   selector: 'app-checkout',
   templateUrl: './checkout.component.html',
   styleUrls: ['./checkout.component.scss'],
 })
-export class CheckoutComponent {
-  constructor(private fb: FormBuilder) {}
+export class CheckoutComponent implements OnInit {
+  constructor(
+    private fb: FormBuilder,
+    private accountService: AccountService
+  ) {}
+  ngOnInit(): void {
+    this.getAddressFormValues();
+  }
 
   checkoutForm = this.fb.group({
     addressForm: this.fb.group({
@@ -26,4 +34,13 @@ export class CheckoutComponent {
       nameOnCard: ['', Validators.required],
     }),
   });
+
+  async getAddressFormValues() {
+    await this.accountService.getCurrentUserAddress();
+    if (this.accountService.user?.address) {
+      this.checkoutForm
+        .get('addressForm')
+        ?.patchValue(this.accountService.user?.address);
+    }
+  }
 }

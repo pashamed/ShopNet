@@ -1,5 +1,7 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { AccountService } from 'src/app/account/account.service';
+import { Address } from 'src/app/shared/models/user';
 
 @Component({
   selector: 'app-checkout-address',
@@ -8,4 +10,12 @@ import { FormGroup } from '@angular/forms';
 })
 export class CheckoutAddressComponent {
   @Input() checkoutForm?: FormGroup;
+  constructor(private accountService: AccountService) {}
+
+  async saveUserAddress() {
+    await this.accountService.updateUserAddress(
+      this.checkoutForm?.get('addressForm')?.value
+    );
+    this.checkoutForm?.get('addressForm')?.setErrors({ street: true });
+  }
 }
