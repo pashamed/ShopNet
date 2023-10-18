@@ -5,6 +5,7 @@ import { AccountService } from 'src/app/account/account.service';
 export const authGuard: CanActivateFn = async (route, state) => {
   const accountService = inject(AccountService);
   const router = inject(Router);
+  await accountService.getCurrentUser();
   if (accountService.user) {
     return true;
   }

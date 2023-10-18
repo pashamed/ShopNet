@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AccountService } from '../account/account.service';
+import { FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-checkout',
@@ -7,5 +8,22 @@ import { AccountService } from '../account/account.service';
   styleUrls: ['./checkout.component.scss'],
 })
 export class CheckoutComponent {
-  constructor(public accountService: AccountService) {}
+  constructor(private fb: FormBuilder) {}
+
+  checkoutForm = this.fb.group({
+    addressForm: this.fb.group({
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      street: ['', Validators.required],
+      city: ['', Validators.required],
+      postalCode: ['', Validators.required],
+      country: ['', Validators.required],
+    }),
+    deliveryForm: this.fb.group({
+      deliveryMethod: ['', Validators.required],
+    }),
+    paymentForm: this.fb.group({
+      nameOnCard: ['', Validators.required],
+    }),
+  });
 }

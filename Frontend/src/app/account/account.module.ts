@@ -5,7 +5,6 @@ import { AccountRoutingModule } from './account-routing.module';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { SharedModule } from '../shared/shared.module';
-import { AccountService } from './account.service';
 
 @NgModule({
   declarations: [LoginComponent, RegisterComponent],
