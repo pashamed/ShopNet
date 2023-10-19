@@ -4,6 +4,7 @@ import { environment } from 'src/environments/environment.development';
 import { Basket, BasketItem, BasketTotal } from '../shared/models/basket';
 import { HttpClient } from '@angular/common/http';
 import { Product } from '../shared/models/product';
+import { DeliveryMethod } from '../shared/models/deliveryMethod';
 
 @Injectable({
   providedIn: 'root',
@@ -14,8 +15,14 @@ export class BasketService {
   private basketTotalSource = new BehaviorSubject<BasketTotal | null>(null);
   public basketSource$ = this.basketSource.asObservable();
   public basketTotalSource$ = this.basketTotalSource.asObservable();
+  shipping = 0;
 
   constructor(private httpClient: HttpClient) {}
+
+  setShippingPrice(deliveryMethod: DeliveryMethod) {
+    this.shipping = deliveryMethod.price;
+    this.calculateTotal();
+  }
 
   getBasket(id: string) {
     this.httpClient
@@ -104,14 +111,13 @@ export class BasketService {
   private calculateTotal() {
     const basket = this.getCurrentBasketValue();
     if (!basket) return;
-    const shipping = 0;
     const subtotal = basket.items.reduce(
       (prev, curr) => curr.price * curr.quantity + prev,
       0
     );
-    const total = subtotal + shipping;
+    const total = subtotal + this.shipping;
     this.basketTotalSource.next({
-      shipping,
+      shipping: this.shipping,
       total,
       subtotal,
     });
