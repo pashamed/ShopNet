@@ -32,7 +32,7 @@ export class CheckoutPaymentComponent {
       this.toastr.success('Order created successfully');
       this.basketService.deleteBasket(basket);
       const navigationExtras: NavigationExtras = { state: order };
-      this.router.navigate(['checkout/success', navigationExtras]);
+      this.router.navigate(['checkout/success'], navigationExtras);
     });
   }
   getOrderToCreate(basket: Basket) {
