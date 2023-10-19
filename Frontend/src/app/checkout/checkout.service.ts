@@ -2,7 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment.development';
 import { DeliveryMethod } from '../shared/models/deliveryMethod';
-import { map } from 'rxjs';
+import { firstValueFrom, map } from 'rxjs';
+import { Order, OrderToCreate } from '../shared/models/order';
 
 @Injectable({
   providedIn: 'root',
@@ -10,6 +11,12 @@ import { map } from 'rxjs';
 export class CheckoutService {
   baseUrl = environment.apiUrl;
   constructor(private http: HttpClient) {}
+
+  async createOrder(order: OrderToCreate) {
+    return await firstValueFrom(
+      this.http.post<Order>(this.baseUrl + 'orders', order)
+    );
+  }
 
   getDeliveryMethods() {
     return this.http
