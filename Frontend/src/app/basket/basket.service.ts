@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, firstValueFrom, map } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
 import { Basket, BasketItem, BasketTotal } from '../shared/models/basket';
 import { HttpClient } from '@angular/common/http';
@@ -19,9 +19,23 @@ export class BasketService {
 
   constructor(private httpClient: HttpClient) {}
 
+  async createPaymentIntent() {
+    return await firstValueFrom(
+      this.httpClient
+        .post<Basket>(
+          this.baseUrl + 'payments/' + this.getCurrentBasketValue()?.id,
+          {}
+        )
+        .pipe(map((basket) => this.basketSource.next(basket)))
+    );
+  }
   setShippingPrice(deliveryMethod: DeliveryMethod) {
+    const basket = this.getCurrentBasketValue();
     this.shipping = deliveryMethod.price;
-    this.calculateTotal();
+    if (basket) {
+      basket.deliveryMethodId = deliveryMethod.id;
+      this.setBasket(basket);
+    }
   }
 
   getBasket(id: string) {

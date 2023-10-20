@@ -3,6 +3,8 @@ import { Component, EventEmitter, Input, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { AccountService } from '../account/account.service';
 import { Address } from '../shared/models/user';
+import { BasketService } from '../basket/basket.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-checkout',
@@ -12,10 +14,13 @@ import { Address } from '../shared/models/user';
 export class CheckoutComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
-    private accountService: AccountService
+    private accountService: AccountService,
+    private basketService: BasketService,
+    private toast: ToastrService
   ) {}
   ngOnInit(): void {
     this.getAddressFormValues();
+    this.getDeliveryMethodValue();
   }
 
   checkoutForm = this.fb.group({
@@ -42,5 +47,31 @@ export class CheckoutComponent implements OnInit {
         .get('addressForm')
         ?.patchValue(this.accountService.user?.address);
     }
+  }
+
+  getDeliveryMethodValue() {
+    const basket = this.basketService.getCurrentBasketValue();
+    if (basket && basket.deliveryMethodId) {
+      this.checkoutForm
+        .get('deliveryForm')
+        ?.get('deliveryMethod')
+        ?.patchValue(basket.deliveryMethodId.toString());
+    }
+  }
+
+  checkFormValid() {
+    if (
+      this.checkoutForm.get('addressForm')?.valid &&
+      this.checkoutForm.get('deliveryForm')?.valid
+    )
+      return true;
+    return false;
+  }
+
+  async createPaymentIntent() {
+    await this.basketService
+      .createPaymentIntent()
+      .then(() => this.toast.success('Payment intent created'))
+      .catch((error) => this.toast.error(error.message));
   }
 }
