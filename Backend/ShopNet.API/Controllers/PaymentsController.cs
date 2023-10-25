@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ShopNet.API.Errors;
 using ShopNet.BLL.Interfaces;
 using ShopNet.DAL.Entities;
 
@@ -18,6 +19,7 @@ public class PaymentsController : BaseApiController
     [HttpPost("{basketId}")]
     public async Task<ActionResult<Basket>> CreateOrUpdatePaymentIntent(string basketId)
     {
-        return await _paymentService.CreateOrUpdatePaymentIntent(basketId);
+        var basket = await _paymentService.CreateOrUpdatePaymentIntent(basketId);
+        return basket is null ? BadRequest(new ApiResponse(400, "Problem with basket")) : basket;
     }
 }

@@ -5,6 +5,7 @@ import { AccountService } from '../account/account.service';
 import { Address } from '../shared/models/user';
 import { BasketService } from '../basket/basket.service';
 import { ToastrService } from 'ngx-toastr';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-checkout',
@@ -49,8 +50,8 @@ export class CheckoutComponent implements OnInit {
     }
   }
 
-  getDeliveryMethodValue() {
-    const basket = this.basketService.getCurrentBasketValue();
+  async getDeliveryMethodValue() {
+    const basket = await this.basketService.getCurrentBasketValue();
     if (basket && basket.deliveryMethodId) {
       this.checkoutForm
         .get('deliveryForm')

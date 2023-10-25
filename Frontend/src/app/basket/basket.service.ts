@@ -23,14 +23,14 @@ export class BasketService {
     return await firstValueFrom(
       this.httpClient
         .post<Basket>(
-          this.baseUrl + 'payments/' + this.getCurrentBasketValue()?.id,
+          this.baseUrl + 'payments/' + (await this.getCurrentBasketValue())?.id,
           {}
         )
         .pipe(map((basket) => this.basketSource.next(basket)))
     );
   }
-  setShippingPrice(deliveryMethod: DeliveryMethod) {
-    const basket = this.getCurrentBasketValue();
+  async setShippingPrice(deliveryMethod: DeliveryMethod) {
+    const basket = await this.getCurrentBasketValue();
     this.shipping = deliveryMethod.price;
     if (basket) {
       basket.deliveryMethodId = deliveryMethod.id;
@@ -56,19 +56,19 @@ export class BasketService {
       });
   }
 
-  getCurrentBasketValue() {
-    return this.basketSource.value;
+  async getCurrentBasketValue() {
+    return await firstValueFrom(this.basketSource.asObservable());
   }
 
-  addItem(item: Product | BasketItem, quantity = 1) {
+  async addItem(item: Product | BasketItem, quantity = 1) {
     if (this.isProduct(item)) item = this.mapProductToBasketItem(item);
-    const basket = this.getCurrentBasketValue() ?? this.createBasket();
+    const basket = (await this.getCurrentBasketValue()) ?? this.createBasket();
     basket.items = this.addOrUpdateBasket(basket.items, item, quantity);
     this.setBasket(basket);
   }
 
-  removeItem(id: number, quantity = 1) {
-    const basket = this.getCurrentBasketValue();
+  async removeItem(id: number, quantity = 1) {
+    const basket = await this.getCurrentBasketValue();
     if (!basket) return;
     const item = basket.items.find((i) => i.id === id);
     if (item) {
@@ -122,8 +122,8 @@ export class BasketService {
       type: item.productType,
     };
   }
-  private calculateTotal() {
-    const basket = this.getCurrentBasketValue();
+  private async calculateTotal() {
+    const basket = await this.getCurrentBasketValue();
     if (!basket) return;
     const subtotal = basket.items.reduce(
       (prev, curr) => curr.price * curr.quantity + prev,

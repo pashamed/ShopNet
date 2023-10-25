@@ -5,9 +5,9 @@ import * as cuid2 from '@paralleldrive/cuid2';
 export interface Basket {
   id: string;
   items: BasketItem[];
-  clientSecret?:string;
-  paymentIntentId?:string;
-  deliveryMethodId?:number;
+  clientSecret?: string;
+  paymentIntentId?: string;
+  deliveryMethodId?: number;
 }
 
 export interface BasketItem {

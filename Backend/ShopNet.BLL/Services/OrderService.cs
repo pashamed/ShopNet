@@ -36,12 +36,23 @@ namespace ShopNet.BLL.Services
 
             var dMethod = await unitOfWork.Repository<DeliveryMethod>().GetByIdAsync(deliveryMethod);
             var subtotal = orderItems.Sum(x => x.Price * x.Quantity);
-            var order = new Order(orderItems, buyerEmail, shippingAddress, dMethod, subtotal);
 
-            unitOfWork.Repository<Order>().Add(order);
-
+            var order = await unitOfWork.Repository<Order>().GetEntityWithSpec(new OrderByPaymentIntentIdSpecification(basket.PaymentIntentId));
+            if(order is not null)
+            {
+                order.ShipToAddress = shippingAddress;
+                order.DeliveryMethod = dMethod;
+                order.Subtotal = subtotal;
+                unitOfWork.Repository<Order>().Update(order);
+            }
+            else
+            {
+                order = new Order(orderItems, buyerEmail, shippingAddress, dMethod, subtotal,basket.PaymentIntentId);
+                unitOfWork.Repository<Order>().Add(order);
+            }
+                          
             var result = await unitOfWork.Complete();
-            return order;
+            return result <= 0 ? null : order;
         }
 
         public async Task<IReadOnlyList<DeliveryMethod>> GetDeliveryMethodsAsync()

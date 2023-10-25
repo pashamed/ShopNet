@@ -26,6 +26,8 @@ public class PaymentService : IPaymentService
         var basket = await _basketRepository.GetBasketAsync(basketId);
         var shippingPrice = 0m;
 
+        if(basket is null) return null;
+
         if (basket.DeliveryMethodId.HasValue)
         {
             shippingPrice = (await _unitOfWork.Repository<DeliveryMethod>().GetByIdAsync((int)basket.DeliveryMethodId)).Price;
