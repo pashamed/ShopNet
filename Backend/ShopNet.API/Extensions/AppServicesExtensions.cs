@@ -22,6 +22,7 @@ namespace ShopNet.API.Extensions
             });
             services.AddSingleton<IConnectionMultiplexer>(conf =>
                 ConnectionMultiplexer.Connect(ConfigurationOptions.Parse(config.GetConnectionString("Redis"))));
+            services.AddSingleton<IResponseCachingService, ResponseCacheService>();
 
             services.AddAutoMapper(Assembly.GetAssembly(typeof(MappingProfile)));
             services.AddHttpContextAccessor();
