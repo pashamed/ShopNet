@@ -3,13 +3,15 @@
     border: none;
     padding: 5px 10px;
     font-size: 1.1em;
-}
-
-&.active {
     border-radius: 10px;
-}
 
-&:not(.active):hover {
-    color: white;
-    background-color: aqua;
+    &.active {
+        background-color: rgb(159, 229, 249);
+        color: black;
+    }
+
+    &:not(.active):hover {
+        color: white;
+        background-color: rgba(159, 229, 249, 0.5);
+    }
 }
