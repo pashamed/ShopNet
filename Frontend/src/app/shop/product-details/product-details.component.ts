@@ -45,7 +45,6 @@ export class ProductDetailsComponent implements OnInit {
           });
           //this.bcService.set('@productDetails', product.name);
         },
-        error: (err) => console.log(err),
       });
   }
 
