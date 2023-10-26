@@ -1,9 +1,10 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using ShopNet.BLL.Interfaces;
-using ShopNet.DAL.Entities;
+using ShopNet.BLL.Specifications;
 using ShopNet.DAL.Entities.OrderAggregate;
 using Stripe;
+using Order = ShopNet.DAL.Entities.OrderAggregate.Order;
 using Product = ShopNet.DAL.Entities.Product;
 
 namespace ShopNet.BLL.Services;
@@ -20,7 +21,7 @@ public class PaymentService : IPaymentService
         _unitOfWork = unitOfWork;
         _config = config;
     }
-    public async Task<Basket> CreateOrUpdatePaymentIntent(string basketId)
+    public async Task<DAL.Entities.Basket> CreateOrUpdatePaymentIntent(string basketId)
     {
         StripeConfiguration.ApiKey = _config["StripeSettings:SecretKey"];
         var basket = await _basketRepository.GetBasketAsync(basketId);
@@ -68,5 +69,23 @@ public class PaymentService : IPaymentService
         await _basketRepository.UpdateBasketAsync(basket);
 
         return basket;
+    }
+
+    public async Task<Order> UpdateOrderPaymentFailed(string paymentIntentId)
+    {
+        var order = await _unitOfWork.Repository<Order>().GetEntityWithSpec(new OrderByPaymentIntentIdSpecification(paymentIntentId));
+        if(order is null) return null;
+        order.Status = OrderStatus.PaymentFailed;
+        await _unitOfWork.Complete();
+        return order;
+    }
+
+    public async Task<Order> UpdateOrderPaymentSucceeded(string paymentIntentId)
+    {
+        var order = await _unitOfWork.Repository<Order>().GetEntityWithSpec(new OrderByPaymentIntentIdSpecification(paymentIntentId));
+        if (order is null) return null;
+        order.Status = OrderStatus.PaymentReceived;
+        await _unitOfWork.Complete();
+        return order;
     }
 }

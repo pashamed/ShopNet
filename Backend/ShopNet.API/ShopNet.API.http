@@ -3,3 +3,7 @@
 GET {{ShopNet.API_HostAddress}}/api/products
 
 ###
+
+GET {{ShopNet.API_HostAddress}}/api/orders
+
+###

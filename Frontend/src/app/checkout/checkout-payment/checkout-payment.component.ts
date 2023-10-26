@@ -31,7 +31,10 @@ export class CheckoutPaymentComponent implements OnInit {
   cardNumber?: StripeCardNumberElement;
   cardExpiry?: StripeCardExpiryElement;
   cardCvc?: StripeCardCvcElement;
-  cardErrors: any;
+  cardErrors: string | null = null;
+  cardNumberOk = false;
+  cardExpiryOk = false;
+  cardCvcOk = false;
   loading = false;
 
   constructor(
@@ -42,6 +45,7 @@ export class CheckoutPaymentComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    console.log(this.cardErrors);
     this.initStripe();
   }
 
@@ -116,22 +120,34 @@ export class CheckoutPaymentComponent implements OnInit {
       this.cardNumber.mount(this.cardNumberElement?.nativeElement);
       this.cardNumber.on('change', (event) => {
         if (event.error) this.cardErrors = event.error.message;
-        else this.cardErrors = null;
+        if (event.complete) this.cardNumberOk = true;
+        this.cardErrors = null;
       });
 
       this.cardExpiry = elements.create('cardExpiry');
       this.cardExpiry.mount(this.cardExpiryElement?.nativeElement);
       this.cardExpiry.on('change', (event) => {
         if (event.error) this.cardErrors = event.error.message;
-        else this.cardErrors = null;
+        if (event.complete) this.cardExpiryOk = true;
+        this.cardErrors = null;
       });
 
       this.cardCvc = elements.create('cardCvc');
       this.cardCvc.mount(this.cardCvcElement?.nativeElement);
       this.cardCvc.on('change', (event) => {
         if (event.error) this.cardErrors = event.error.message;
-        else this.cardErrors = null;
+        if (event.complete) this.cardCvcOk = true;
+        this.cardErrors = null;
       });
     }
+  }
+
+  paymentFormOk() {
+    return (
+      this.cardNumberOk &&
+      this.cardCvcOk &&
+      this.cardExpiryOk &&
+      this.checkoutForm?.get('paymentForm')?.valid
+    );
   }
 }

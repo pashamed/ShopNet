@@ -72,7 +72,6 @@ export class CheckoutComponent implements OnInit {
   async createPaymentIntent() {
     await this.basketService
       .createPaymentIntent()
-      .then(() => this.toast.success('Payment intent created'))
       .catch((error) => this.toast.error(error.message));
   }
 }
