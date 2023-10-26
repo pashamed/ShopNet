@@ -60,9 +60,7 @@ export class CheckoutPaymentComponent implements OnInit {
         const navigationExtras: NavigationExtras = { state: createdOrder };
         this.router.navigate(['checkout/success'], navigationExtras);
       } else {
-        this.toastr.error(
-          paymentResult.error.message + ' ' + paymentResult.error.decline_code
-        );
+        this.toastr.error(paymentResult.error.message);
       }
     } catch (error: any) {
       console.error(error);

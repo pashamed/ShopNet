@@ -376,3 +376,4 @@ Backend/.idea/.idea.ShopNet/.idea/indexLayout.xml
 .gitignore
 Backend/.idea/.idea.ShopNet/.idea/vcs.xml
 Backend/ShopNet.API/appsettings.json
+.vscode/settings.json
