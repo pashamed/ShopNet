@@ -11,14 +11,15 @@ namespace ShopNet.API.Controllers;
 
 public class PaymentsController : BaseApiController
 {
-    private const string endpointSecret = "whsec_aaa915b3e385d0b39ea49f52d1925919ebed1055948da75f25dd84d0c1ac3cab";
+    private readonly string endpointSecret;
     private readonly IPaymentService _paymentService;
     private readonly ILogger<PaymentsController> logger;
 
-    public PaymentsController(IPaymentService paymentService,ILogger<PaymentsController> logger)
+    public PaymentsController(IPaymentService paymentService,ILogger<PaymentsController> logger,IConfiguration config)
     {
         _paymentService = paymentService;
         this.logger = logger;
+        endpointSecret = config.GetSection("StripeSettings:WhSecret").Value;
     }
 
     [Authorize]
@@ -64,6 +65,7 @@ public class PaymentsController : BaseApiController
         }
         catch (StripeException e)
         {
+            logger.LogError($"Error: {e.Message}");
             return BadRequest();
         }
     }

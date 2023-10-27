@@ -17,7 +17,7 @@ namespace ShopNet.API.Extensions
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle         
             services.AddDbContext<StoreContext>(opt =>
             {
-                opt.UseSqlite(config.GetConnectionString("DefaultConnection"),
+                opt.UseNpgsql(config.GetConnectionString("DefaultConnection"),
                     m => m.MigrationsAssembly(typeof(StoreContext).Assembly.FullName));
             });
             services.AddSingleton<IConnectionMultiplexer>(conf =>
