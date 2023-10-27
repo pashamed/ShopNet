@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
 using ShopNet.BLL.Interfaces;
 using ShopNet.BLL.Specifications;
 using ShopNet.DAL.Entities.OrderAggregate;
@@ -15,19 +14,20 @@ public class PaymentService : IPaymentService
     private readonly IUnitOfWork _unitOfWork;
     private readonly IConfiguration _config;
 
-    public PaymentService(IBasketRepository basketRepository, IUnitOfWork unitOfWork,IConfiguration config)
+    public PaymentService(IBasketRepository basketRepository, IUnitOfWork unitOfWork, IConfiguration config)
     {
         _basketRepository = basketRepository;
         _unitOfWork = unitOfWork;
         _config = config;
     }
+
     public async Task<DAL.Entities.Basket> CreateOrUpdatePaymentIntent(string basketId)
     {
         StripeConfiguration.ApiKey = _config["StripeSettings:SecretKey"];
         var basket = await _basketRepository.GetBasketAsync(basketId);
         var shippingPrice = 0m;
 
-        if(basket is null) return null;
+        if (basket is null) return null;
 
         if (basket.DeliveryMethodId.HasValue)
         {
@@ -74,7 +74,7 @@ public class PaymentService : IPaymentService
     public async Task<Order> UpdateOrderPaymentFailed(string paymentIntentId)
     {
         var order = await _unitOfWork.Repository<Order>().GetEntityWithSpec(new OrderByPaymentIntentIdSpecification(paymentIntentId));
-        if(order is null) return null;
+        if (order is null) return null;
         order.Status = OrderStatus.PaymentFailed;
         await _unitOfWork.Complete();
         return order;

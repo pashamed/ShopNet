@@ -13,6 +13,7 @@ namespace ShopNet.API.Helpers
         {
             this.timeToLiveSeconds = timeToLiveSeconds;
         }
+
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
             var cacheService = context.HttpContext.RequestServices.GetRequiredService<IResponseCachingService>();
@@ -34,9 +35,9 @@ namespace ShopNet.API.Helpers
 
             var executedContext = await next();
 
-            if(executedContext.Result is OkObjectResult okObjectResult)
+            if (executedContext.Result is OkObjectResult okObjectResult)
             {
-                await cacheService.CacheResponseAsync(cacheKey,okObjectResult.Value,TimeSpan.FromSeconds(timeToLiveSeconds));
+                await cacheService.CacheResponseAsync(cacheKey, okObjectResult.Value, TimeSpan.FromSeconds(timeToLiveSeconds));
             }
         }
 
@@ -45,9 +46,9 @@ namespace ShopNet.API.Helpers
             var keyBuilder = new StringBuilder();
             keyBuilder.Append(request.Path.ToString());
 
-            foreach (var (key,value) in request.Query.OrderBy(x => x.Key))
+            foreach (var (key, value) in request.Query.OrderBy(x => x.Key))
             {
-                keyBuilder.Append("|"+key + "-"+value);
+                keyBuilder.Append("|" + key + "-" + value);
             }
             return keyBuilder.ToString();
         }

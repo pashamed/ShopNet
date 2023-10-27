@@ -1,7 +1,5 @@
 ﻿using ShopNet.BLL.Interfaces;
-using ShopNet.BLL.Services.Abstract;
 using ShopNet.BLL.Specifications;
-using ShopNet.DAL.Data;
 using ShopNet.DAL.Entities;
 using ShopNet.DAL.Entities.OrderAggregate;
 
@@ -38,7 +36,7 @@ namespace ShopNet.BLL.Services
             var subtotal = orderItems.Sum(x => x.Price * x.Quantity);
 
             var order = await unitOfWork.Repository<Order>().GetEntityWithSpec(new OrderByPaymentIntentIdSpecification(basket.PaymentIntentId));
-            if(order is not null)
+            if (order is not null)
             {
                 order.ShipToAddress = shippingAddress;
                 order.DeliveryMethod = dMethod;
@@ -47,10 +45,10 @@ namespace ShopNet.BLL.Services
             }
             else
             {
-                order = new Order(orderItems, buyerEmail, shippingAddress, dMethod, subtotal,basket.PaymentIntentId);
+                order = new Order(orderItems, buyerEmail, shippingAddress, dMethod, subtotal, basket.PaymentIntentId);
                 unitOfWork.Repository<Order>().Add(order);
             }
-                          
+
             var result = await unitOfWork.Complete();
             return result <= 0 ? null : order;
         }

@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
 using ShopNet.BLL.Specifications.Abstract;
 using ShopNet.DAL.Entities.OrderAggregate;
 

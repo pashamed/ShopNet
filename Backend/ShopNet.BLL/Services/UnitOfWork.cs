@@ -1,12 +1,8 @@
-using System.Collections;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using ShopNet.BLL.Interfaces;
 using ShopNet.BLL.Services.Abstract;
 using ShopNet.DAL.Data;
 using ShopNet.DAL.Entities;
+using System.Collections;
 
 namespace ShopNet.BLL.Services
 {

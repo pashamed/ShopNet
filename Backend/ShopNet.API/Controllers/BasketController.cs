@@ -26,7 +26,7 @@ namespace ShopNet.API.Controllers
         [HttpPost]
         public async Task<ActionResult<Basket>> UpdateBasket(BasketDto basket)
         {
-            return Ok(await _basketRepository.UpdateBasketAsync(mapper.Map<BasketDto,Basket>(basket)));
+            return Ok(await _basketRepository.UpdateBasketAsync(mapper.Map<BasketDto, Basket>(basket)));
         }
 
         [HttpDelete]

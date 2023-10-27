@@ -7,6 +7,7 @@ namespace ShopNet.Common.DTO
     {
         [Required]
         public string Id { get; set; }
+
         public List<BasketItemDto> Items { get; set; }
         public int? DeliveryMethodId { get; set; }
         public string ClientSecret { get; set; }
@@ -18,18 +19,24 @@ namespace ShopNet.Common.DTO
     {
         [Required]
         public int Id { get; set; }
+
         [Required]
         public string ProductName { get; set; }
+
         [Required]
-        [Range(0.1,double.MaxValue, ErrorMessage = "Price must be greater than 0")]
+        [Range(0.1, double.MaxValue, ErrorMessage = "Price must be greater than 0")]
         public decimal Price { get; set; }
+
         [Required]
-        [Range(1, double.MaxValue,ErrorMessage ="Quantity must be at least 1")]
+        [Range(1, double.MaxValue, ErrorMessage = "Quantity must be at least 1")]
         public int Quantity { get; set; }
+
         [Required]
         public string PictureUrl { get; set; }
+
         [Required]
         public ProductBrand Brand { get; set; }
+
         [Required]
         public ProductType Type { get; set; }
     }

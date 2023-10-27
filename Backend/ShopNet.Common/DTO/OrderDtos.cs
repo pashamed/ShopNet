@@ -1,5 +1,4 @@
-﻿using System.Text.Json.Serialization;
-using ShopNet.DAL.Entities.OrderAggregate;
+﻿using ShopNet.DAL.Entities.OrderAggregate;
 
 namespace ShopNet.Common.DTO
 {
@@ -9,6 +8,7 @@ namespace ShopNet.Common.DTO
         public int DeliveryMethodId { get; set; }
         public AddressDto ShipToAddress { get; set; }
     }
+
     public class OrderWithItemsDto
     {
         public int Id { get; set; }
@@ -22,6 +22,7 @@ namespace ShopNet.Common.DTO
         public string Status { get; set; }
         public decimal Total { get; set; }
     }
+
     public class OrderItemDto
     {
         public int ProductId { get; set; }

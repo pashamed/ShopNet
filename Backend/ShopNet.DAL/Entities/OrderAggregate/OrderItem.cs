@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ShopNet.DAL.Entities.OrderAggregate
+﻿namespace ShopNet.DAL.Entities.OrderAggregate
 {
     public class OrderItem : BaseEntity
     {
@@ -22,6 +16,5 @@ namespace ShopNet.DAL.Entities.OrderAggregate
         public ProductItemOrdered ItemOrdered { get; set; }
         public decimal Price { get; set; }
         public int Quantity { get; set; }
-
     }
 }

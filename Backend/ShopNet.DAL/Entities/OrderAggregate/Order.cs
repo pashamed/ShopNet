@@ -8,7 +8,7 @@ namespace ShopNet.DAL.Entities.OrderAggregate
         {
         }
 
-        public Order(IReadOnlyList<OrderItem> orderItems, string buyerEmail, Address shipToAddress, DeliveryMethod deliveryMethod, decimal subtotal,string paymentIntentId)
+        public Order(IReadOnlyList<OrderItem> orderItems, string buyerEmail, Address shipToAddress, DeliveryMethod deliveryMethod, decimal subtotal, string paymentIntentId)
         {
             BuyerEmail = buyerEmail;
             ShipToAddress = shipToAddress;
@@ -20,12 +20,15 @@ namespace ShopNet.DAL.Entities.OrderAggregate
 
         public string BuyerEmail { get; set; } = string.Empty;
         public DateTime OrderDate { get; set; } = DateTime.UtcNow;
+
         [Required]
         public Address ShipToAddress { get; set; }
+
         public DeliveryMethod DeliveryMethod { get; set; }
         public IReadOnlyList<OrderItem> OrderItems { get; set; }
         public decimal Subtotal { get; set; }
         public OrderStatus Status { get; set; } = OrderStatus.Pending;
+
         //payment sys id
         public string PaymentIntentId { get; set; } = string.Empty;
 

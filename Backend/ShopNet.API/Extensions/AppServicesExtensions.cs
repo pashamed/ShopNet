@@ -14,7 +14,7 @@ namespace ShopNet.API.Extensions
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration config)
         {
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle         
+            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             services.AddDbContext<StoreContext>(opt =>
             {
                 opt.UseNpgsql(config.GetConnectionString("DefaultConnection"),
@@ -26,6 +26,7 @@ namespace ShopNet.API.Extensions
 
             services.AddAutoMapper(Assembly.GetAssembly(typeof(MappingProfile)));
             services.AddHttpContextAccessor();
+
             services.AddScoped<IBasketRepository, BasketRepository>();
             services.AddScoped<IProductsRepository, ProductsService>();
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));

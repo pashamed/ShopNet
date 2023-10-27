@@ -1,6 +1,5 @@
 ﻿using ShopNet.BLL.Specifications.Abstract;
 using ShopNet.DAL.Entities.OrderAggregate;
-using System.Linq.Expressions;
 
 namespace ShopNet.BLL.Specifications
 {

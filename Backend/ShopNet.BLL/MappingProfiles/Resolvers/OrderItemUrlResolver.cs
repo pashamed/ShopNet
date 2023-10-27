@@ -8,10 +8,12 @@ namespace ShopNet.BLL.MappingProfiles.Resolvers
     public class OrderItemUrlResolver : IValueResolver<OrderItem, OrderItemDto, string>
     {
         private IHttpContextAccessor HttpContextAccessor { get; }
+
         public OrderItemUrlResolver(IHttpContextAccessor httpContextAccessor)
         {
             HttpContextAccessor = httpContextAccessor;
         }
+
         public string Resolve(OrderItem source, OrderItemDto destination, string destMember, ResolutionContext context)
         {
             var host =

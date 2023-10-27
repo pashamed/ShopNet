@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using ShopNet.API.Errors;
 using ShopNet.BLL.Interfaces;
 using ShopNet.DAL.Entities;
-using ShopNet.DAL.Entities.OrderAggregate;
 using Stripe;
 using Order = ShopNet.DAL.Entities.OrderAggregate.Order;
 
@@ -15,7 +14,7 @@ public class PaymentsController : BaseApiController
     private readonly IPaymentService _paymentService;
     private readonly ILogger<PaymentsController> logger;
 
-    public PaymentsController(IPaymentService paymentService,ILogger<PaymentsController> logger,IConfiguration config)
+    public PaymentsController(IPaymentService paymentService, ILogger<PaymentsController> logger, IConfiguration config)
     {
         _paymentService = paymentService;
         this.logger = logger;

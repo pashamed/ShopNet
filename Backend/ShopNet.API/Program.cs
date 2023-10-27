@@ -1,4 +1,3 @@
-using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
@@ -40,7 +39,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-app.MapFallbackToController(nameof(FallBackController.Index),nameof(FallBackController)[..^10]);
+app.MapFallbackToController(nameof(FallBackController.Index), nameof(FallBackController)[..^10]);
 
 using var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;
