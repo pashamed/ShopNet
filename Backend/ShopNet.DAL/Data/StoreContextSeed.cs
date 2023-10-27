@@ -1,5 +1,6 @@
 ﻿using ShopNet.DAL.Entities;
 using ShopNet.DAL.Entities.OrderAggregate;
+using System.Reflection;
 using System.Text.Json;
 
 namespace ShopNet.DAL.Data
@@ -8,21 +9,23 @@ namespace ShopNet.DAL.Data
     {
         public static async Task SeedAsync(StoreContext context)
         {
+            var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+
             if (!context.ProductBrands.Any())
             {
-                var brandsData = await File.ReadAllTextAsync("../ShopNet.DAL/SeedData/brands.json");
+                var brandsData = await File.ReadAllTextAsync(path + @"/SeedData/brands.json");
                 var brands = JsonSerializer.Deserialize<List<ProductBrand>>(brandsData);
                 await context.ProductBrands.AddRangeAsync(brands);
             }
             if (!context.ProductTypes.Any())
             {
-                var typesData = await File.ReadAllTextAsync("../ShopNet.DAL/SeedData/types.json");
+                var typesData = await File.ReadAllTextAsync(path + @"/SeedData/types.json");
                 var types = JsonSerializer.Deserialize<List<ProductType>>(typesData);
                 await context.ProductTypes.AddRangeAsync(types);
             }
             if (!context.Products.Any())
             {
-                var productsData = await File.ReadAllTextAsync("../ShopNet.DAL/SeedData/products.json");
+                var productsData = await File.ReadAllTextAsync(path + @"/SeedData/products.json");
                 var products = JsonSerializer.Deserialize<List<Product>>(productsData);
                 foreach (var product in products)
                 {
@@ -34,7 +37,7 @@ namespace ShopNet.DAL.Data
 
             if (!context.DeliveryMethods.Any())
             {
-                var deliveryData = await File.ReadAllTextAsync("../ShopNet.DAL/SeedData/delivery.json");
+                var deliveryData = await File.ReadAllTextAsync(path + @"/SeedData/delivery.json");
                 var methods = JsonSerializer.Deserialize<List<DeliveryMethod>>(deliveryData);
                 await context.DeliveryMethods.AddRangeAsync(methods);
             }
