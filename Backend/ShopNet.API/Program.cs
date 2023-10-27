@@ -1,6 +1,8 @@
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
+using ShopNet.API.Controllers;
 using ShopNet.API.Extensions;
 using ShopNet.API.Middleware;
 using ShopNet.DAL.Data;
@@ -26,6 +28,11 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseStaticFiles();
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Content")),
+    RequestPath = "/Content"
+});
 
 app.UseCors("CorsPolicy");
 
@@ -33,6 +40,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapFallbackToController(nameof(FallBackController.Index),nameof(FallBackController)[..^10]);
 
 using var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;

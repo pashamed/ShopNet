@@ -20,7 +20,7 @@ namespace ShopNet.BLL.MappingProfiles.Resolvers
                 $"{HttpContextAccessor.HttpContext?.Request.Scheme}://{HttpContextAccessor.HttpContext?.Request.Host}";
             if (!string.IsNullOrEmpty(source.PictureUrl))
             {
-                return host + "/" + source.PictureUrl;
+                return host + "/Content/" + source.PictureUrl;
             }
 
             return null!;
