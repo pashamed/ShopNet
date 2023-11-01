@@ -1,5 +1,13 @@
 services:
-
+  main:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile # this is the name of your custom docker file
+    ports:
+      - "5001:80" # this is an example port mapping, you can change it as needed
+    depends_on:
+      - db
+      - redis
   redis:
     image: redis:latest
     ports:
@@ -27,6 +35,7 @@ services:
       - 5432:5432
     volumes:
       - postgres-data:/data
+
 
     
 volumes:
