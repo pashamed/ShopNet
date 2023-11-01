@@ -35,9 +35,12 @@ services:
       - 5432:5432
     volumes:
       - postgres-data:/data
+  stripe:
+    image: "stripe/stripe-cli:latest"
+    network_mode: host
+    command:
+        listen --api-key sk_test_51O3EaqElC8Fuz3iAlWgS4Zq4LEkBTzmSXdIrJcbc4gp2dDrduDHxab6mOTTMPpm2piLqhWgCwrOESjUUDYPImFvh00deSahasY --forward-to localhost:5001/api/payments/webhook
 
-
-    
 volumes:
   redis-data:
   postgres-data:
