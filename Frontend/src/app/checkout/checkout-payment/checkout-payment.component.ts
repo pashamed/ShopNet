@@ -10,8 +10,11 @@ import { NavigationExtras, Router } from '@angular/router';
 import {
   Stripe,
   StripeCardCvcElement,
+  StripeCardCvcElementChangeEvent,
   StripeCardExpiryElement,
+  StripeCardExpiryElementChangeEvent,
   StripeCardNumberElement,
+  StripeCardNumberElementChangeEvent,
   loadStripe,
 } from '@stripe/stripe-js';
 import { environment } from 'src/environments/environment.development';
@@ -82,8 +85,8 @@ export class CheckoutPaymentComponent implements OnInit {
           },
         },
       })
-      .catch((error) => {
-        throw new Error(error.message);
+      .catch((error: string) => {
+        throw new Error(error);
       });
     if (!result) throw new Error('Problem with payment');
     return result;
@@ -116,23 +119,29 @@ export class CheckoutPaymentComponent implements OnInit {
     if (elements) {
       this.cardNumber = elements.create('cardNumber');
       this.cardNumber.mount(this.cardNumberElement?.nativeElement);
-      this.cardNumber.on('change', (event) => {
-        if (event.error) this.cardErrors = event.error.message;
-        if (event.complete) this.cardNumberOk = true;
-        this.cardErrors = null;
-      });
+      this.cardNumber.on(
+        'change',
+        (event: StripeCardNumberElementChangeEvent) => {
+          if (event.error) this.cardErrors = event.error.message;
+          if (event.complete) this.cardNumberOk = true;
+          this.cardErrors = null;
+        }
+      );
 
       this.cardExpiry = elements.create('cardExpiry');
       this.cardExpiry.mount(this.cardExpiryElement?.nativeElement);
-      this.cardExpiry.on('change', (event) => {
-        if (event.error) this.cardErrors = event.error.message;
-        if (event.complete) this.cardExpiryOk = true;
-        this.cardErrors = null;
-      });
+      this.cardExpiry.on(
+        'change',
+        (event: StripeCardExpiryElementChangeEvent) => {
+          if (event.error) this.cardErrors = event.error.message;
+          if (event.complete) this.cardExpiryOk = true;
+          this.cardErrors = null;
+        }
+      );
 
       this.cardCvc = elements.create('cardCvc');
       this.cardCvc.mount(this.cardCvcElement?.nativeElement);
-      this.cardCvc.on('change', (event) => {
+      this.cardCvc.on('change', (event: StripeCardCvcElementChangeEvent) => {
         if (event.error) this.cardErrors = event.error.message;
         if (event.complete) this.cardCvcOk = true;
         this.cardErrors = null;
