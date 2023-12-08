@@ -2,9 +2,9 @@ services:
   main:
     build:
       context: ./backend
-      dockerfile: Dockerfile # this is the name of your custom docker file
+      dockerfile: Dockerfile
     ports:
-      - "5001:80" # this is an example port mapping, you can change it as needed
+      - "5001:80"
     depends_on:
       - db
       - redis
